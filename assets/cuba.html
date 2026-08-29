@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500;1,700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #1D1D1D; }
+    a { color: #C9A24B; }
+    a:hover { color: #E0BE6E; }
+  </style>
+</helmet>
+<div onClick="{{ onTap }}" style="width:100%;height:100vh;min-height:560px;position:relative;background:{{ bgColor }};font-family:'Playfair Display',Georgia,serif;overflow:hidden;cursor:pointer;">
+
+  <sc-if value="{{ showLine }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px;">
+      <div style="font-style:italic;font-weight:{{ lineWeight }};font-size:{{ lineSize }}px;letter-spacing:{{ lineSpacing }}px;color:{{ textColor }};max-width:520px;text-align:center;opacity:{{ lineOpacity }};transition:opacity {{ fadeMs }}ms ease;">
+        {{ lineText }}
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showLookAround }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:50%;top:calc(50% + 76px);transform:translateX(-50%);opacity:{{ lookAroundOpacity }};transition:opacity 500ms ease;">
+      <div onClick="{{ onLookAround }}" style="padding:14px 30px;border:1px solid {{ textColor }};color:{{ textColor }};font-style:italic;font-size:16px;cursor:pointer;border-radius:2px;white-space:nowrap;">
+        Have a look around
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+    <a href="./index.html" style="position:absolute;left:50%;bottom:56px;transform:translateX(-50%);font-style:italic;font-size:15px;color:{{ textColor }};opacity:{{ backOpacity }};transition:opacity 800ms ease;">
+      &larr; Back to the map
+    </a>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const LINES = [
+  { text: 'Cuba, eh?', size: 26, weight: 500, spacing: 0.2 },
+  { text: 'I wonder what gave you that idea.', size: 24, weight: 500, spacing: 0.2 },
+  { text: 'Very well.', size: 24, weight: 500, spacing: 0.2 },
+  { text: 'Your skiff makes port at the great city of\u2026', size: 22, weight: 500, spacing: 0.2 },
+  { text: 'HAVANA', size: 56, weight: 700, spacing: 4, final: true },
+];
+const FADE_MS = 1200;
+const PARCHMENT = '#F1E9D2';
+const INK = '#1D1D1D';
+const INVERT_DELAY_MS = 900;
+const LOOKAROUND_DELAY_MS = 1800;
+
+class Component extends DCLogic {
+  state = {
+    lineIndex: 0,
+    lineOpacity: 0,
+    showLine: false,
+    locked: false,
+    inverted: false,
+    showLookAround: false,
+    lookAroundOpacity: 0,
+    showBack: false,
+    backOpacity: 0,
+  };
+
+  timers = [];
+
+  componentDidMount() {
+    this.after(40, () => this.setState({ showLine: true, lineOpacity: 1 }));
+  }
+
+  componentWillUnmount() {
+    this.timers.forEach(clearTimeout);
+  }
+
+  after = (ms, fn) => {
+    const id = setTimeout(fn, ms);
+    this.timers.push(id);
+  };
+
+  isFinal = () => !!LINES[this.state.lineIndex].final;
+
+  onTap = () => {
+    if (this.state.locked) return;
+
+    if (this.isFinal()) return;
+
+    this.setState({ locked: true, lineOpacity: 0 });
+    this.after(FADE_MS, () => {
+      const next = this.state.lineIndex + 1;
+      this.setState({ lineIndex: next, lineOpacity: 1, locked: false });
+      if (LINES[next].final) {
+        this.after(INVERT_DELAY_MS, () => {
+          this.setState({ inverted: true });
+          this.after(LOOKAROUND_DELAY_MS, () => {
+            this.setState({ showLookAround: true });
+            this.after(40, () => this.setState({ lookAroundOpacity: 1 }));
+          });
+        });
+      }
+    });
+  };
+
+  onLookAround = (e) => {
+    e.stopPropagation();
+    window.location.href = "./havana-dock.html";
+  };
+
+  renderVals() {
+    const line = LINES[this.state.lineIndex] || LINES[0];
+    const isFinal = this.isFinal();
+    return {
+      showLine: this.state.showLine,
+      lineText: line.text,
+      lineSize: line.size,
+      lineWeight: line.weight,
+      lineSpacing: line.spacing,
+      lineOpacity: this.state.lineOpacity,
+      fadeMs: isFinal ? 0 : FADE_MS,
+      isFinal: isFinal,
+      bgColor: (isFinal && this.state.inverted) ? PARCHMENT : INK,
+      textColor: (isFinal && this.state.inverted) ? INK : PARCHMENT,
+      showLookAround: this.state.showLookAround,
+      lookAroundOpacity: this.state.lookAroundOpacity,
+      onLookAround: this.onLookAround,
+      showBack: this.state.showBack,
+      backOpacity: this.state.backOpacity,
+      onTap: this.onTap,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

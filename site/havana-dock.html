@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500;1,700&display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <style>
+    body { margin: 0; background: #1D1D1D; }
+    a { color: #C9A24B; }
+    a:hover { color: #E0BE6E; }
+    @keyframes diagonalPan {
+      0% { transform: translate(-22%, -17%) scale(1.12); }
+      73% { transform: translate(4%, 5%) scale(1.02); }
+      100% { transform: translate(0%, 0%) scale(0.66); }
+    }
+  </style>
+</helmet>
+<div style="width:100%;height:100vh;min-height:560px;position:relative;background:#1D1D1D;font-family:'Playfair Display',Georgia,serif;overflow:hidden;">
+
+  <sc-if value="{{ showPan }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      <div style="position:absolute;width:150%;height:150%;left:-25%;top:-25%;animation:diagonalPan 5200ms ease-in-out forwards;">
+        <image-slot id="havana-harbor-dock" shape="rect" src="./assets/havana-harbor.jpeg" credit="W.L. Metcalf" placeholder="Havana Harbor, dockside" style="width:100%;height:100%;display:block;"></image-slot>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="position:absolute;inset:0;background:#1D1D1D;opacity:{{ blackoutOpacity }};transition:opacity 900ms ease;pointer-events:none;"></div>
+
+  <sc-if value="{{ showText }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;padding:44px;">
+      <div style="font-style:italic;font-weight:500;font-size:24px;line-height:1.6;color:#F1E9D2;max-width:480px;text-align:center;opacity:{{ textOpacity }};transition:opacity 1000ms ease;">
+        Near the dock, a large cargo shipment awaits with a ship's manifest intended for a rum runner like yourself.
+      </div>
+      <a href="./cargo-hold.html" style="font-style:italic;font-size:17px;color:#1D1D1D;background:#C9A24B;padding:12px 28px;border-radius:2px;letter-spacing:0.03em;opacity:{{ textOpacity }};transition:opacity 1000ms ease,background 200ms ease;" style-hover="background:#E0BE6E;color:#1D1D1D;">
+        Sort the cargo
+      </a>
+      <a href="./index.html" style="font-style:italic;font-size:15px;color:#B7A97E;opacity:{{ textOpacity }};transition:opacity 1000ms ease;">
+        &larr; Back to the map
+      </a>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    showPan: true,
+    blackoutOpacity: 0,
+    showText: false,
+    textOpacity: 0,
+  };
+
+  timers = [];
+
+  componentDidMount() {
+    this.after(5900, () => this.setState({ blackoutOpacity: 1 }));
+    this.after(6800, () => {
+      this.setState({ showPan: false, showText: true });
+      this.after(40, () => this.setState({ textOpacity: 1 }));
+    });
+  }
+
+  componentWillUnmount() {
+    this.timers.forEach(clearTimeout);
+  }
+
+  after = (ms, fn) => {
+    const id = setTimeout(fn, ms);
+    this.timers.push(id);
+  };
+
+  renderVals() {
+    return {
+      showPan: this.state.showPan,
+      blackoutOpacity: this.state.blackoutOpacity,
+      showText: this.state.showText,
+      textOpacity: this.state.textOpacity,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

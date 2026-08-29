@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+  <style>
+    body { margin: 0; background: #1D1D1D; }
+    @keyframes mapFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes mapFadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes mapPopIn { from { opacity: 0; transform: translate(-50%,-50%) scale(0.94); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
+    a { color: #C9A24B; }
+    a:hover { color: #E0BE6E; }
+  </style>
+</helmet>
+<div style="width:100%;height:100vh;min-height:560px;display:flex;flex-direction:column;background:#1D1D1D;overflow:hidden;font-family:'Playfair Display',Georgia,serif;position:relative;">
+
+  <div style="padding:28px 24px 20px;text-align:center;flex-shrink:0;">
+    <div style="font-style:italic;font-weight:500;font-size:26px;line-height:1.35;color:#F1E9D2;letter-spacing:0.2px;">
+      Captain&hellip; What is our heading?
+    </div>
+    <div style="font-style:italic;font-weight:500;font-size:15px;color:#B7A97E;margin-top:8px;">
+      Select a territory or <span onClick="{{ openCoords }}" style="color:#C9A24B;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(201,162,75,0.5);" style-hover="color:#E0BE6E;">enter coordinates</span>.
+    </div>
+  </div>
+
+  <div
+    ref="{{ viewportRef }}"
+    onPointerDown="{{ onPointerDown }}"
+    onWheel="{{ onWheel }}"
+    style="flex:1;position:relative;overflow:hidden;background:{{ oceanColor }};touch-action:none;cursor:grab;">
+    <div style="position:absolute;left:0;top:0;transform:translate({{ panX }}px,{{ panY }}px) scale({{ zoom }});transform-origin:0 0;">
+      <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="3">
+        <svg
+          width="{{ mapWidth }}"
+          height="{{ mapHeight }}"
+          viewBox="0 0 {{ mapWidth }} {{ mapHeight }}"
+          style="position:absolute;left:{{ t.left }}px;top:0;user-select:none;">
+          <rect x="0" y="0" width="{{ mapWidth }}" height="{{ mapHeight }}" fill="{{ oceanColor }}"></rect>
+          <sc-for list="{{ countries }}" as="c" hint-placeholder-count="0">
+            <path
+              d="{{ c.d }}"
+              data-name="{{ c.name }}"
+              onClick="{{ onTerritoryClick }}"
+              style="fill:{{ landColor }};stroke:#5B4A30;stroke-width:1.1;stroke-dasharray:2,2.4;cursor:pointer;transition:fill 120ms ease;"
+              style-hover="fill:#C9A24B;stroke:#3A2E1C;">
+            </path>
+          </sc-for>
+        </svg>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div
+      onClick="{{ closeModal }}"
+      style="position:fixed;inset:0;background:rgba(10,10,8,0.62);backdrop-filter:blur(1px);z-index:40;animation:mapFadeIn 220ms ease;">
+    </div>
+    <div style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;animation:mapPopIn 260ms ease;width:min(320px,84vw);background:#1D1D1D;border:1px solid #6B5A3A;border-radius:2px;box-shadow:0 20px 60px rgba(0,0,0,0.5);padding:32px 28px 26px;text-align:center;font-family:'Playfair Display',Georgia,serif;">
+      <div style="font-style:italic;font-weight:500;font-size:15px;color:#C9A24B;letter-spacing:0.5px;margin-bottom:6px;text-transform:uppercase;">
+        {{ selectedName }}
+      </div>
+      <div style="font-style:italic;font-weight:600;font-size:28px;color:#F1E9D2;margin-bottom:26px;">
+        Set sail?
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;">
+        <div onClick="{{ onYes }}" style="flex:1;padding:14px 0;border:1px solid #F1E9D2;color:#F1E9D2;font-style:italic;font-size:17px;cursor:pointer;border-radius:2px;" style-hover="background:#F1E9D2;color:#1D1D1D;">
+          Yes
+        </div>
+        <div onClick="{{ closeModal }}" style="flex:1;padding:14px 0;border:1px solid #6B5A3A;color:#B7A97E;font-style:italic;font-size:17px;cursor:pointer;border-radius:2px;" style-hover="background:#6B5A3A;color:#1D1D1D;">
+          No
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ coordsOpen }}" hint-placeholder-val="{{ false }}">
+    <div
+      onClick="{{ closeCoords }}"
+      style="position:fixed;inset:0;background:rgba(10,10,8,0.62);backdrop-filter:blur(1px);z-index:40;animation:mapFadeIn 220ms ease;">
+    </div>
+    <div style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;animation:mapPopIn 260ms ease;width:min(320px,84vw);min-height:260px;box-sizing:border-box;background:#1D1D1D;border:1px solid #6B5A3A;border-radius:2px;box-shadow:0 20px 60px rgba(0,0,0,0.5);padding:32px 28px 26px;text-align:center;font-family:'Playfair Display',Georgia,serif;display:flex;flex-direction:column;justify-content:center;">
+      <sc-if value="{{ lostOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="font-style:italic;font-weight:600;font-size:26px;color:#8C3A2E;animation:{{ lostAnim }};">
+          Ye be lost&hellip;
+        </div>
+      </sc-if>
+      <sc-if value="{{ sailingOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="font-style:italic;font-weight:500;font-size:22px;line-height:1.6;color:#F1E9D2;animation:mapFadeIn 300ms ease;">
+          You sail turbulent tides and reach&hellip;
+        </div>
+      </sc-if>
+      <sc-if value="{{ showCoordsForm }}" hint-placeholder-val="{{ true }}">
+        <div style="font-style:italic;font-weight:600;font-size:24px;color:#F1E9D2;margin-bottom:22px;animation:mapFadeIn 260ms ease;">
+          Chart a course
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px;text-align:left;animation:mapFadeIn 260ms ease;">
+          <label style="font-style:italic;font-size:13px;color:#B7A97E;letter-spacing:0.3px;">
+            Latitude
+            <input
+              type="text"
+              value="{{ latValue }}"
+              onChange="{{ onLatChange }}"
+              placeholder="e.g. 23.13"
+              style="display:block;width:100%;margin-top:6px;background:#141414;border:1px solid #6B5A3A;border-radius:2px;color:#F1E9D2;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;padding:9px 10px;box-sizing:border-box;outline:none;">
+          </label>
+          <label style="font-style:italic;font-size:13px;color:#B7A97E;letter-spacing:0.3px;">
+            Longitude
+            <input
+              type="text"
+              value="{{ lonValue }}"
+              onChange="{{ onLonChange }}"
+              placeholder="e.g. -82.38"
+              style="display:block;width:100%;margin-top:6px;background:#141414;border:1px solid #6B5A3A;border-radius:2px;color:#F1E9D2;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;padding:9px 10px;box-sizing:border-box;outline:none;">
+          </label>
+        </div>
+        <sc-if value="{{ coordsError }}" hint-placeholder-val="{{ false }}">
+          <div style="font-style:italic;font-size:13px;color:#B5665A;margin-bottom:16px;">
+            {{ coordsError }}
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:14px;justify-content:center;">
+          <div onClick="{{ onSetCourse }}" style="flex:1;padding:14px 0;border:1px solid #F1E9D2;color:#F1E9D2;font-style:italic;font-size:17px;cursor:pointer;border-radius:2px;" style-hover="background:#F1E9D2;color:#1D1D1D;">
+            Set sail
+          </div>
+          <div onClick="{{ closeCoords }}" style="flex:1;padding:14px 0;border:1px solid #6B5A3A;color:#B7A97E;font-style:italic;font-size:17px;cursor:pointer;border-radius:2px;" style-hover="background:#6B5A3A;color:#1D1D1D;">
+            Cancel
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ arrivalOpen }}" hint-placeholder-val="{{ false }}">
+    <div
+      style="position:fixed;inset:0;background:#000;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:40px;animation:mapFadeIn 320ms ease;">
+      <div style="font-style:italic;font-weight:500;font-size:22px;line-height:1.6;color:#F1E9D2;max-width:440px;text-align:center;">
+        You set sail on foul and fair winds until you reach port. But nothing of interest awaits you here.
+      </div>
+      <div onClick="{{ closeArrival }}" style="padding:12px 28px;border:1px solid #F1E9D2;color:#F1E9D2;font-style:italic;font-size:16px;cursor:pointer;border-radius:2px;" style-hover="background:#F1E9D2;color:#1D1D1D;">
+        Back to the sea
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ voyageOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:63;background:#000;display:flex;align-items:center;justify-content:center;padding:44px;font-family:'Playfair Display',Georgia,serif;">
+      <div style="font-style:italic;font-weight:500;font-size:clamp(20px,4.6vw,27px);line-height:1.6;letter-spacing:1px;color:#F1E9D2;text-align:center;text-wrap:pretty;max-width:520px;opacity:{{ voyageOpacity }};transition:opacity 900ms ease;">
+        You sail turbulent tides to the edge of the world, until you reach&hellip;
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ restOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:62;background:#0B0B0B;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;padding:44px;font-family:'Playfair Display',Georgia,serif;">
+      <div style="font-style:italic;font-weight:500;font-size:clamp(20px,4.6vw,26px);line-height:1.6;letter-spacing:1px;color:#F1E9D2;text-align:center;text-wrap:pretty;max-width:480px;opacity:{{ restOpacity }};transition:opacity 700ms ease;">
+        {{ restLine }}
+      </div>
+      <sc-if value="{{ restButtonShown }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onRest }}" style="padding:12px 28px;border:1px solid #F1E9D2;border-radius:2px;color:#F1E9D2;font-style:italic;font-size:16px;cursor:pointer;opacity:{{ restOpacity }};transition:opacity 700ms ease;" style-hover="background:#F1E9D2;color:#1D1D1D;">
+          Okay&hellip; fine
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ pointNemoOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;background:{{ pnBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;padding:44px;font-family:'Playfair Display',Georgia,serif;">
+      <div style="font-style:italic;font-weight:700;font-size:clamp(34px,7vw,64px);letter-spacing:3px;color:{{ pnText }};text-align:center;max-width:780px;white-space:pre-line;opacity:{{ pnOpacity }};transition:opacity 900ms ease;">
+        {{ pnLabel }}
+      </div>
+      <sc-if value="{{ showBackPN }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onContinuePN }}" style="font-style:italic;font-size:17px;color:{{ pnText }};opacity:{{ backPNOpacity }};transition:opacity 800ms ease;cursor:pointer;">
+          Continue &rarr;
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const MAP_W = 2400;
+const MAP_H = 1200;
+const DATA_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const ZOOM_MIN = 0.6;
+const ZOOM_MAX = 4;
+const FRICTION = 0.90;
+const STOP_VELOCITY = 0.02;
+
+class Component extends DCLogic {
+  state = {
+    countries: [],
+    panX: 0,
+    panY: 0,
+    zoom: 1,
+    modalOpen: false,
+    selectedName: '',
+    arrivalOpen: false,
+    coordsOpen: false,
+    latValue: '',
+    lonValue: '',
+    coordsError: '',
+    lostOpen: false,
+    lostFading: false,
+    sailingOpen: false,
+    pointNemoOpen: false,
+    restOpen: false,
+    voyageOpen: false,
+    voyageOpacity: 0,
+    restOpacity: 0,
+    restButtonShown: true,
+    restLine: 'Your destination is a long ways away. You should probably rest.',
+    pnOpacity: 0,
+    pnInverted: false,
+    showBackPN: false,
+    backPNOpacity: 0,
+  };
+
+  PN_INVERT_DELAY_MS = 2400;
+  PN_BACK_DELAY_MS = 1800;
+
+  timers = [];
+
+  after = (ms, fn) => {
+    const id = setTimeout(fn, ms);
+    this.timers.push(id);
+  };
+
+  VALID_COORDS = [
+    { lat: -48.52, lon: -123.23 },
+    { lat: -48.87, lon: -123.39 },
+  ];
+
+  vpRef = React.createRef();
+  dragging = false;
+  moved = false;
+  pointers = new Map();
+  pinch = null;
+  velocity = { x: 0, y: 0 };
+  samples = [];
+  momentumId = null;
+
+  componentDidMount() {
+    // Returning from the dream: run the Point Nemo preamble before the bow scene.
+    try {
+      if (localStorage.getItem('map.pendingPointNemoIntro') === '1') {
+        localStorage.removeItem('map.pendingPointNemoIntro');
+        this.setState({ voyageOpen: true, voyageOpacity: 0 });
+        this.after(500, () => this.setState({ voyageOpacity: 1 }));
+        this.after(4400, () => this.setState({ voyageOpacity: 0 }));
+        this.after(5500, () => {
+          this.setState({ voyageOpen: false, pointNemoOpen: true, pnOpacity: 0 });
+          this.after(60, () => this.setState({ pnOpacity: 1 }));
+          this.after(this.PN_INVERT_DELAY_MS, () => {
+            this.setState({ pnInverted: true });
+            this.after(this.PN_BACK_DELAY_MS, () => {
+              this.setState({ showBackPN: true });
+              this.after(40, () => this.setState({ backPNOpacity: 1 }));
+            });
+          });
+        });
+      }
+    } catch (e) {}
+    this.loadMap();
+    window.addEventListener('resize', this.centerIfNeeded);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.centerIfNeeded);
+    window.removeEventListener('pointermove', this.onWindowPointerMove);
+    window.removeEventListener('pointerup', this.onWindowPointerUp);
+    window.removeEventListener('pointercancel', this.onWindowPointerUp);
+    if (this.momentumId) cancelAnimationFrame(this.momentumId);
+    if (this.lostTimer) clearTimeout(this.lostTimer);
+    if (this.lostFadeTimer) clearTimeout(this.lostFadeTimer);
+    this.timers.forEach(clearTimeout);
+  }  loadMap = () => {
+    const ready = () => window.d3 && window.topojson;
+    const start = () => {
+      fetch(DATA_URL).then(r => r.json()).then(topo => {
+        const objName = Object.keys(topo.objects)[0];
+        const fc = window.topojson.feature(topo, topo.objects[objName]);
+        const projection = window.d3.geoEquirectangular().fitSize([MAP_W, MAP_H], fc);
+        const pathGen = window.d3.geoPath().projection(projection);
+        const countries = fc.features.map((f, i) => ({
+          id: f.id || i,
+          name: (f.properties && (f.properties.name || f.properties.NAME)) || 'Uncharted',
+          d: pathGen(f),
+        })).filter(c => c.d);
+        this.setState({ countries }, this.centerIfNeeded);
+      }).catch(() => {});
+    };
+    if (ready()) { start(); } else {
+      const t = setInterval(() => { if (ready()) { clearInterval(t); start(); } }, 60);
+    }
+  };
+
+  centerIfNeeded = () => {
+    const el = this.vpRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (this.state.panX === 0 && this.state.panY === 0) {
+      this.setState({
+        panX: Math.round(rect.width / 2 - MAP_W / 2),
+        panY: Math.round(rect.height / 2 - MAP_H / 2),
+      });
+    }
+  };
+
+  wrapX = (panX, zoom) => {
+    const w = MAP_W * zoom;
+    let x = panX % w;
+    if (x > 0) x -= w;
+    return x;
+  };
+
+  clampX = (panX, zoom) => {
+    const el = this.vpRef.current;
+    if (!el) return panX;
+    const rect = el.getBoundingClientRect();
+    const margin = 120;
+    const minX = Math.min(0, rect.width - MAP_W * zoom) - margin;
+    const maxX = margin;
+    return Math.max(minX, Math.min(maxX, panX));
+  };
+
+  clampY = (panY, zoom) => {
+    const el = this.vpRef.current;
+    if (!el) return panY;
+    const rect = el.getBoundingClientRect();
+    const margin = 120;
+    const minY = Math.min(0, rect.height - MAP_H * zoom) - margin;
+    const maxY = margin;
+    return Math.max(minY, Math.min(maxY, panY));
+  };
+
+  stopMomentum = () => {
+    if (this.momentumId) { cancelAnimationFrame(this.momentumId); this.momentumId = null; }
+  };
+
+  pointDist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+  onPointerDown = (e) => {
+    if (this.state.modalOpen) return;
+    this.stopMomentum();
+    this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (this.pointers.size === 1) {
+      this.moved = false;
+      this.dragging = true;
+      this.dragOrigin = { x: e.clientX, y: e.clientY, panX: this.state.panX, panY: this.state.panY };
+      this.samples = [{ t: performance.now(), x: e.clientX, y: e.clientY }];
+      if (this.vpRef.current) this.vpRef.current.style.cursor = 'grabbing';
+    } else if (this.pointers.size === 2) {
+      this.dragging = false;
+      const pts = [...this.pointers.values()];
+      this.pinch = {
+        dist: this.pointDist(pts[0], pts[1]),
+        zoom: this.state.zoom,
+        panX: this.state.panX,
+        panY: this.state.panY,
+        mid: { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 },
+      };
+    }
+    window.addEventListener('pointermove', this.onWindowPointerMove);
+    window.addEventListener('pointerup', this.onWindowPointerUp);
+    window.addEventListener('pointercancel', this.onWindowPointerUp);
+  };
+
+  applyZoomAtPoint = (nextZoom, px, py, basePanX, basePanY, baseZoom) => {
+    const clampedZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, nextZoom));
+    const el = this.vpRef.current;
+    if (!el) return { zoom: clampedZoom, panX: basePanX, panY: basePanY };
+    const rect = el.getBoundingClientRect();
+    const localX = px - rect.left;
+    const localY = py - rect.top;
+    const worldX = (localX - basePanX) / baseZoom;
+    const worldY = (localY - basePanY) / baseZoom;
+    const panX = localX - worldX * clampedZoom;
+    const panY = localY - worldY * clampedZoom;
+    return { zoom: clampedZoom, panX: this.clampY === null ? panX : panX, panY };
+  };
+
+  onWindowPointerMove = (e) => {
+    if (!this.pointers.has(e.pointerId)) return;
+    this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (this.pinch && this.pointers.size === 2) {
+      const pts = [...this.pointers.values()];
+      const dist = this.pointDist(pts[0], pts[1]);
+      const ratio = dist / (this.pinch.dist || 1);
+      const nextZoom = this.pinch.zoom * ratio;
+      const result = this.applyZoomAtPoint(nextZoom, this.pinch.mid.x, this.pinch.mid.y, this.pinch.panX, this.pinch.panY, this.pinch.zoom);
+      const infinite = this.props.enableInfiniteScroll ?? true;
+      const px = infinite ? this.wrapX(result.panX, result.zoom) : this.clampX(result.panX, result.zoom);
+      const py = this.clampY(result.panY, result.zoom);
+      this.setState({ zoom: result.zoom, panX: px, panY: py });
+      return;
+    }
+
+    if (this.dragging && this.pointers.size === 1) {
+      const dx = e.clientX - this.dragOrigin.x;
+      const dy = e.clientY - this.dragOrigin.y;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) this.moved = true;
+      const zoom = this.state.zoom;
+      const infinite = this.props.enableInfiniteScroll ?? true;
+      const rawX = this.dragOrigin.panX + dx;
+      const nextX = infinite ? this.wrapX(rawX, zoom) : this.clampX(rawX, zoom);
+      const nextY = this.clampY(this.dragOrigin.panY + dy, zoom);
+      this.setState({ panX: nextX, panY: nextY });
+
+      const now = performance.now();
+      this.samples.push({ t: now, x: e.clientX, y: e.clientY });
+      if (this.samples.length > 5) this.samples.shift();
+    }
+  };
+
+  onWindowPointerUp = (e) => {
+    this.pointers.delete(e.pointerId);
+
+    if (this.pinch && this.pointers.size < 2) {
+      this.pinch = null;
+      if (this.pointers.size === 1) {
+        const [remaining] = [...this.pointers.values()];
+        this.dragOrigin = { x: remaining.x, y: remaining.y, panX: this.state.panX, panY: this.state.panY };
+        this.dragging = true;
+        this.samples = [{ t: performance.now(), x: remaining.x, y: remaining.y }];
+      }
+    }
+
+    if (this.pointers.size === 0) {
+      this.dragging = false;
+      if (this.vpRef.current) this.vpRef.current.style.cursor = 'grab';
+      window.removeEventListener('pointermove', this.onWindowPointerMove);
+      window.removeEventListener('pointerup', this.onWindowPointerUp);
+      window.removeEventListener('pointercancel', this.onWindowPointerUp);
+
+      const samples = this.samples;
+      if (samples.length >= 2) {
+        const last = samples[samples.length - 1];
+        const first = samples[0];
+        const dt = last.t - first.t;
+        if (dt > 0) {
+          this.velocity = {
+            x: (last.x - first.x) / dt,
+            y: (last.y - first.y) / dt,
+          };
+          this.startMomentum();
+        }
+      }
+    }
+  };
+
+  startMomentum = () => {
+    this.stopMomentum();
+    const step = () => {
+      const speed = Math.hypot(this.velocity.x, this.velocity.y);
+      if (speed < STOP_VELOCITY || this.dragging || this.pinch || this.state.modalOpen) {
+        this.momentumId = null;
+        return;
+      }
+      const zoom = this.state.zoom;
+      const infinite = this.props.enableInfiniteScroll ?? true;
+      const dt = 16;
+      const rawX = this.state.panX + this.velocity.x * dt;
+      const rawY = this.state.panY + this.velocity.y * dt;
+      const nextX = infinite ? this.wrapX(rawX, zoom) : this.clampX(rawX, zoom);
+      const nextY = this.clampY(rawY, zoom);
+      if (!infinite && nextY !== rawY) this.velocity.y *= 0.4;
+      if (!infinite && nextX !== rawX) this.velocity.x *= 0.4;
+      this.velocity.x *= FRICTION;
+      this.velocity.y *= FRICTION;
+      this.setState({ panX: nextX, panY: nextY });
+      this.momentumId = requestAnimationFrame(step);
+    };
+    this.momentumId = requestAnimationFrame(step);
+  };
+
+  onWheel = (e) => {
+    e.preventDefault();
+    this.stopMomentum();
+    const delta = e.deltaY;
+    const zoomFactor = Math.exp(-delta * 0.0015);
+    const nextZoom = this.state.zoom * zoomFactor;
+    const result = this.applyZoomAtPoint(nextZoom, e.clientX, e.clientY, this.state.panX, this.state.panY, this.state.zoom);
+    const infinite = this.props.enableInfiniteScroll ?? true;
+    const px = infinite ? this.wrapX(result.panX, result.zoom) : this.clampX(result.panX, result.zoom);
+    const py = this.clampY(result.panY, result.zoom);
+    this.setState({ zoom: result.zoom, panX: px, panY: py });
+  };
+
+  onTerritoryClick = (e) => {
+    if (this.moved) { this.moved = false; return; }
+    const name = e.currentTarget.getAttribute('data-name');
+    this.setState({ modalOpen: true, selectedName: name });
+  };
+
+  closeModal = () => this.setState({ modalOpen: false });
+
+  openCoords = () => this.setState({ coordsOpen: true, latValue: '', lonValue: '', coordsError: '' });
+  closeCoords = () => {
+    if (this.lostTimer) clearTimeout(this.lostTimer);
+    if (this.lostFadeTimer) clearTimeout(this.lostFadeTimer);
+    this.setState({ coordsOpen: false, lostOpen: false, lostFading: false });
+  };
+  onLatChange = (e) => this.setState({ latValue: e.target.value });
+  onLonChange = (e) => this.setState({ lonValue: e.target.value });
+
+  onContinuePN = () => { window.location.href = "./point-nemo.html"; };
+
+  // Set only by leaving the hold with the totally normal crate aboard.
+  carriedNormalCargo() {
+    try { return localStorage.getItem('cargoHoldCarriedNormalCargo') === '1'; } catch (e) { return false; }
+  }
+
+  onRest = () => {
+    this.setState({ restOpacity: 0, restButtonShown: false });
+    this.after(760, () => {
+      this.setState({ restLine: 'You drift off to sleep.', restOpacity: 1 });
+      this.after(2100, () => this.setState({ restOpacity: 0 }));
+      this.after(2900, () => {
+        this.setState({ restLine: 'Suddenly…', restOpacity: 1 });
+        this.after(1900, () => this.setState({ restOpacity: 0 }));
+        this.after(2700, () => { window.location.href = './dream-state.html'; });
+      });
+    });
+  };
+
+  onSetCourse = () => {
+    const decimalRe = /^-?\d+(\.\d{1,2})?$/;
+    const latStr = this.state.latValue.trim();
+    const lonStr = this.state.lonValue.trim();
+    const lat = parseFloat(latStr);
+    const lon = parseFloat(lonStr);
+    if (
+      isNaN(lat) || isNaN(lon) ||
+      lat < -90 || lat > 90 || lon < -180 || lon > 180 ||
+      !decimalRe.test(latStr) || !decimalRe.test(lonStr)
+    ) {
+      this.setState({ coordsError: 'Enter a valid latitude (-90 to 90) and longitude (-180 to 180), to the hundredth decimal place (e.g. 23.13).' });
+      return;
+    }
+    const TOL = 0.05;
+    const matched = this.VALID_COORDS.some(c => Math.abs(c.lat - lat) < TOL && Math.abs(c.lon - lon) < TOL);
+    if (!matched) {
+      this.setState({ lostOpen: true, lostFading: false, coordsError: '' });
+      if (this.lostTimer) clearTimeout(this.lostTimer);
+      if (this.lostFadeTimer) clearTimeout(this.lostFadeTimer);
+      this.lostFadeTimer = setTimeout(() => this.setState({ lostFading: true }), 2000);
+      this.lostTimer = setTimeout(() => this.setState({ lostOpen: false, lostFading: false }), 2600);
+      return;
+    }
+    if (this.carriedNormalCargo()) {
+      this.setState({ coordsError: '', coordsOpen: false, restOpen: true, restOpacity: 0, restButtonShown: false, restLine: 'That\u2019s a good heading.' });
+      this.after(120, () => this.setState({ restOpacity: 1 }));
+      this.after(2400, () => this.setState({ restOpacity: 0 }));
+      this.after(3300, () => {
+        this.setState({ restLine: 'Your destination is a long ways away. You should probably rest.', restButtonShown: true, restOpacity: 0 });
+        this.after(80, () => this.setState({ restOpacity: 1 }));
+      });
+      return;
+    }
+    this.setState({ coordsError: '', sailingOpen: true });
+    this.after(1700, () => {
+      this.setState({ coordsOpen: false, sailingOpen: false, pointNemoOpen: true, pnOpacity: 0 });
+      this.after(40, () => this.setState({ pnOpacity: 1 }));
+      this.after(this.PN_INVERT_DELAY_MS, () => {
+        this.setState({ pnInverted: true });
+        this.after(this.PN_BACK_DELAY_MS, () => {
+          this.setState({ showBackPN: true });
+          this.after(40, () => this.setState({ backPNOpacity: 1 }));
+        });
+      });
+    });
+  };
+
+  onYes = () => {
+    if (this.state.selectedName === 'Cuba') {
+      window.location.href = "./cuba.html";
+      return;
+    }
+    this.setState({ modalOpen: false, arrivalOpen: true });
+  };
+
+  closeArrival = () => this.setState({ arrivalOpen: false, selectedName: '' });
+
+  renderVals() {
+    const zoom = this.state.zoom;
+    const worldTiles = [-1, 0, 1].map(i => ({ left: i * MAP_W }));
+    return {
+      countries: this.state.countries,
+      tiles: worldTiles,
+      oceanColor: this.props.oceanColor ?? '#3E6478',
+      landColor: this.props.landColor ?? '#F1E9D2',
+      mapWidth: MAP_W,
+      mapHeight: MAP_H,
+      panX: this.state.panX,
+      panY: this.state.panY,
+      zoom: zoom,
+      modalOpen: this.state.modalOpen,
+      arrivalOpen: this.state.arrivalOpen,
+      closeArrival: this.closeArrival,
+      selectedName: this.state.selectedName,
+      viewportRef: this.vpRef,
+      onPointerDown: this.onPointerDown,
+      onWheel: this.onWheel,
+      onTerritoryClick: this.onTerritoryClick,
+      closeModal: this.closeModal,
+      onYes: this.onYes,
+      openCoords: this.openCoords,
+      closeCoords: this.closeCoords,
+      coordsOpen: this.state.coordsOpen,
+      lostOpen: this.state.lostOpen,
+      lostAnim: this.state.lostFading ? 'mapFadeOut 500ms ease forwards' : 'mapFadeIn 200ms ease',
+      showCoordsForm: !this.state.lostOpen && !this.state.sailingOpen,
+      latValue: this.state.latValue,
+      lonValue: this.state.lonValue,
+      coordsError: this.state.coordsError,
+      onLatChange: this.onLatChange,
+      onLonChange: this.onLonChange,
+      onSetCourse: this.onSetCourse,
+      sailingOpen: this.state.sailingOpen,
+      pointNemoOpen: this.state.pointNemoOpen,
+      restOpen: this.state.restOpen,
+      voyageOpen: this.state.voyageOpen,
+      voyageOpacity: this.state.voyageOpacity,
+      restOpacity: this.state.restOpacity,
+      restButtonShown: this.state.restButtonShown,
+      restLine: this.state.restLine,
+      onRest: this.onRest,
+      pnOpacity: this.state.pnOpacity,
+      pnBg: this.state.pnInverted ? '#F1E9D2' : '#1D1D1D',
+      pnText: this.state.pnInverted ? '#1D1D1D' : '#F1E9D2',
+      pnLabel: this.state.pnInverted ? 'POINT\nNEMO' : 'THE POINT OF INACCESSIBILITY',
+      showBackPN: this.state.showBackPN,
+      backPNOpacity: this.state.backPNOpacity,
+      onContinuePN: this.onContinuePN,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

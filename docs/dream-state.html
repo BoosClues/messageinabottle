@@ -18,6 +18,10 @@
     @keyframes noticeFade { 0% { opacity: 0; } 16% { opacity: 1; } 74% { opacity: 1; } 100% { opacity: 0; } }
     @keyframes sheen { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
     @keyframes exclaimIn { 0% { opacity: 0; transform: scale(0.4) rotate(-8deg); } 55% { opacity: 1; transform: scale(1.18) rotate(3deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+    @keyframes cardIn { 0% { opacity: 0; transform: translateY(120px) scale(0.16) rotate(-980deg); } 55% { opacity: 1; } 78% { transform: translateY(-10px) scale(1.07) rotate(14deg); } 100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
+    @keyframes cardFloat { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+    @keyframes foilDrift { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes hintPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
     @font-face { font-family: 'Necrofonticon'; src: url('./assets/fonts/necrofonticon.ttf') format('truetype'); font-display: swap; }
   </style>
 </helmet>
@@ -78,6 +82,57 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ couponShown }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:14;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,3vh,26px);padding:clamp(12px,3vh,24px);background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.86) 100%);">
+
+      <div style="perspective:1100px;animation:cardIn 1150ms cubic-bezier(0.22,1,0.36,1) both;">
+        <div onPointerMove="{{ onCardMove }}" onPointerLeave="{{ onCardLeave }}" style="animation:cardFloat 6s ease-in-out infinite;">
+          <div style="position:relative;width:min(78vw,330px,calc((100vh - 150px) * 5 / 7));aspect-ratio:5 / 7;border-radius:16px;padding:11px;transform-style:preserve-3d;transform:{{ cardTransform }};transition:{{ cardTransition }};background:linear-gradient(150deg,#0B2431 0%,#123647 40%,#0A1E29 100%);box-shadow:0 26px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(180,240,255,0.28) inset, 0 0 34px rgba(120,220,255,0.16);cursor:crosshair;">
+
+            <div style="position:absolute;inset:0;border-radius:16px;pointer-events:none;background:linear-gradient(115deg,#FF9BD2 4%,#9FF3FF 20%,#D9BBFF 36%,#FFF0B0 52%,#B6FFE0 68%,#9FB8FF 84%,#FF9BD2 100%);background-size:260% 260%;background-position:{{ foilPos }};opacity:0.30;mix-blend-mode:screen;transition:{{ cardTransition }};"></div>
+            <div style="position:absolute;inset:0;border-radius:16px;pointer-events:none;background:linear-gradient(105deg,rgba(255,255,255,0) 38%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0) 62%);background-size:220% 100%;background-position:{{ glarePos }};mix-blend-mode:overlay;transition:{{ cardTransition }};"></div>
+
+            <div style="position:relative;height:100%;display:flex;flex-direction:column;border-radius:9px;border:1px solid rgba(190,245,255,0.4);background:linear-gradient(180deg,rgba(6,20,28,0.72),rgba(6,20,28,0.4));overflow:hidden;font-family:'Playfair Display',Georgia,serif;">
+
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 11px;background:linear-gradient(90deg,rgba(159,243,255,0.16),rgba(217,187,255,0.16));border-bottom:1px solid rgba(190,245,255,0.28);">
+                <div style="font-size:9px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#BFF3FF;">Dreamer Exclusive</div>
+                <div style="font-size:9px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#FFF0B0;">Foil · 001</div>
+              </div>
+
+              <div style="position:relative;margin:9px 9px 0;border-radius:6px;overflow:hidden;border:1px solid rgba(190,245,255,0.34);box-shadow:0 8px 22px rgba(0,0,0,0.6);">
+                <img src="./assets/abyss-shirt-full.png" alt="From the Abyss resort shirt" style="display:block;width:100%;aspect-ratio:1 / 1;object-fit:contain;padding:6px;box-sizing:border-box;background:radial-gradient(ellipse 70% 70% at 50% 42%, #14384A 0%, #0A1E29 100%);filter:drop-shadow(0 6px 14px rgba(0,0,0,0.55));" />
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(4,16,22,0.9) 100%);"></div>
+                <div style="position:absolute;left:0;right:0;bottom:0;padding:7px 9px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CFF6FF;">From the Abyss Edition</div>
+              </div>
+
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 10px;text-align:center;">
+                <div style="font-size:clamp(30px,8.4vw,40px);line-height:1.05;font-weight:700;letter-spacing:-0.5px;background:linear-gradient(100deg,#FFFFFF 10%,#9FF3FF 30%,#FFF0B0 55%,#D9BBFF 78%,#FFFFFF 96%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.9));animation:foilDrift 4.4s linear infinite;">25% OFF</div>
+                <div style="font-size:11px;font-weight:700;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF;white-space:nowrap;">DODO Washable Resort Shirt</div>
+              </div>
+
+              <div style="padding:7px 9px 9px;border-top:1px solid rgba(190,245,255,0.28);background:rgba(4,16,22,0.55);">
+                <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:5px 10px;border:1px dashed rgba(255,240,176,0.7);border-radius:5px;background:{{ codeBg }};transition:background 900ms ease;">
+                  <span style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9FD8E8;">Code</span>
+                  <span style="display:inline-flex;align-items:baseline;">
+                    <sc-for list="{{ codeGlyphs }}" as="g" hint-placeholder-count="6">
+                      <span style="{{ g.style }}">{{ g.ch }}</span>
+                    </sc-for>
+                  </span>
+                </div>
+                <div style="margin-top:5px;font-size:8px;line-height:1.45;letter-spacing:0.3px;color:rgba(200,230,240,0.62);text-align:center;text-wrap:pretty;">Redeemable at any tide. One per dreamer. Not valid in waking hours.</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div onClick="{{ onPocket }}" style="font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#FFFFFF;cursor:pointer;padding:9px 20px;border:1px solid rgba(255,255,255,0.5);border-radius:2px;text-shadow:0 2px 4px rgba(0,0,0,1);animation:hintPulse 2.6s ease-in-out infinite;" style-hover="border-color:#FFFFFF;background:rgba(255,255,255,0.1);">
+        Pocket it
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ noticeShown }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:0;right:0;bottom:13%;z-index:11;display:flex;justify-content:center;padding:0 28px;pointer-events:none;">
       <div style="font-size:clamp(16px,3.6vw,20px);font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#FFFFFF;text-align:center;text-shadow:0 2px 4px rgba(0,0,0,1), 0 0 14px rgba(0,0,0,0.95), 0 0 34px rgba(0,0,0,0.85);animation:noticeFade 3000ms ease-out forwards;">
@@ -114,7 +169,8 @@ class Component extends DCLogic {
     b1: { notice: 'Removed Totally Normal Looking Crate', autoMs: 3000, next: 'b2', onEnter: 'giveCrate' },
     b2: { narration: 'The fishman looks pleased.', next: 'b3' },
     b3: { narration: 'It presents something in return.', next: 'b4' },
-    b4: { narration: 'A gift for a gift\u2026', next: 'sleep', onEnter: 'receiveGift' },
+    b4: { narration: 'A gift for a gift\u2026', next: 'b5', onEnter: 'receiveGift' },
+    b5: { coupon: true },
 
     x1: { exclaim: true, autoMs: 1500, next: 'x2' },
     x2: { exclaim: true, choices: [ { text: '\u201CWhat did I just say?\u201D', to: 'x3' } ] },
@@ -122,7 +178,37 @@ class Component extends DCLogic {
     x4: { narration: 'It retreats into the muck.', next: 'sleep' },
   };
 
-  state = { lidsOpen: false, blurStep: 0, closing: false, awaken: false, node: null, fading: false };
+  state = { lidsOpen: false, blurStep: 0, closing: false, awaken: false, node: null, fading: false, tilt: null, codeRevealed: 0, codeTick: 0 };
+
+  onCardMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    this.setState({ tilt: { px, py } });
+  };
+
+  onCardLeave = () => this.setState({ tilt: null });
+
+  CODE = 'DREAMS';
+
+  // Necrofonticon glyphs settle into the promo code, left to right.
+  startCodeDecode() {
+    clearInterval(this.codeTimer);
+    this.setState({ codeRevealed: 0 });
+    let frame = 0;
+    const perChar = 4;
+    this.codeTimer = setInterval(() => {
+      frame++;
+      const revealed = Math.floor(frame / perChar);
+      this.setState({ codeRevealed: revealed, codeTick: frame });
+      if (revealed >= this.CODE.length) { clearInterval(this.codeTimer); this.codeTimer = null; }
+    }, 65);
+  }
+
+  onPocket = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    this.transitionTo('sleep');
+  };
 
   componentDidMount() {
     try { localStorage.setItem('pointNemo.dreamt', '1'); } catch (e) {}
@@ -138,7 +224,7 @@ class Component extends DCLogic {
     blink(7600, 3, { awaken: false, node: 'n1' });
   }
 
-  componentWillUnmount() { (this.timers || []).forEach(clearTimeout); clearTimeout(this.autoTimer); clearTimeout(this.fadeTimer); }
+  componentWillUnmount() { (this.timers || []).forEach(clearTimeout); clearTimeout(this.autoTimer); clearTimeout(this.fadeTimer); clearTimeout(this.codeStart); clearInterval(this.codeTimer); }
 
   giveCrate() {
     try {
@@ -162,6 +248,11 @@ class Component extends DCLogic {
     }
     const step = this.SCRIPT[node];
     if (step && step.onEnter) this[step.onEnter]();
+    if (step && step.coupon) {
+      clearInterval(this.codeTimer);
+      this.setState({ codeRevealed: 0, codeTick: 0 });
+      this.codeStart = setTimeout(() => this.startCodeDecode(), 1300);
+    }
     this.setState({ node, fading: false });
     if (step && step.autoMs) this.autoTimer = setTimeout(() => this.goTo(step.next), step.autoMs);
   }
@@ -183,6 +274,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const step = this.SCRIPT[s.node] || {};
+    const t = s.tilt;
     let gi = 0;
     const speechWords = (step.speech || '').split(' ').filter(Boolean).map(word => ({
       glyphs: word.split('').map(ch => {
@@ -230,6 +322,26 @@ class Component extends DCLogic {
       speechShown: !!step.speech,
       speechWords,
       exclaimShown: !!step.exclaim,
+      couponShown: !!step.coupon,
+      codeGlyphs: this.CODE.split('').map((ch, i) => {
+        const done = i < s.codeRevealed;
+        return {
+          ch: done ? ch : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[(Math.floor(s.codeTick / 1) + i * 7 + Math.floor(Math.random() * 26)) % 26],
+          style: done
+            ? "font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;letter-spacing:2px;color:#FFF0B0;"
+            : "font-family:'Necrofonticon','Playfair Display',Georgia,serif;font-size:19px;letter-spacing:2px;color:#CFF6FF;opacity:0.85;",
+        };
+      }),
+      codeBg: s.codeRevealed >= this.CODE.length ? 'rgba(255,240,176,0.12)' : 'rgba(0,0,0,0)',
+      cardTransform: t
+        ? `rotateX(${(0.5 - t.py) * 17}deg) rotateY(${(t.px - 0.5) * 19}deg) scale(1.03)`
+        : 'rotateX(0deg) rotateY(0deg) scale(1)',
+      cardTransition: t ? 'transform 90ms linear, background-position 90ms linear' : 'transform 700ms cubic-bezier(0.22,1,0.36,1), background-position 700ms ease',
+      foilPos: t ? `${18 + t.px * 64}% ${18 + t.py * 64}%` : '50% 50%',
+      glarePos: t ? `${t.px * 100}% 50%` : '50% 50%',
+      onCardMove: this.onCardMove,
+      onCardLeave: this.onCardLeave,
+      onPocket: this.onPocket,
       noticeShown: !!step.notice,
       noticeText: step.notice || '',
       onAdvance: this.onAdvance,

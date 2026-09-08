@@ -15,11 +15,31 @@
     a { color: #C9A24B; }
     a:hover { color: #F0DFAE; }
     @font-face { font-family: 'Necrofonticon'; src: url('./assets/fonts/necrofonticon.ttf') format('truetype'); font-display: swap; }
+    @font-face { font-family: 'Oceanside Typewriter'; src: url('./assets/fonts/oceanside-typewriter.ttf') format('truetype'); font-display: swap; }
     @keyframes foilShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes redPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
     @keyframes noRoomShake { 0%,100% { transform: translateX(0); } 15% { transform: translateX(-5px); } 30% { transform: translateX(5px); } 45% { transform: translateX(-4px); } 60% { transform: translateX(4px); } 78% { transform: translateX(-2px); } }
     @keyframes noRoomToast { 0% { opacity: 0; transform: translate(-50%, 6px); } 14% { opacity: 1; transform: translate(-50%, 0); } 72% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -6px); } }
     @keyframes hoverGlow { 0%, 100% { opacity: 0.72; } 50% { opacity: 1; } }
+    @keyframes letterRise { 0% { opacity: 0; transform: translateY(16px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes deepShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-0.6px, 0.5px) rotate(-1deg); }
+      50% { transform: translate(0.7px, -0.5px) rotate(1deg); }
+      75% { transform: translate(-0.4px, -0.4px) rotate(-0.6deg); }
+    }
+    @keyframes terrorShake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-2px, 2px) rotate(-5deg); }
+      20% { transform: translate(3px, -3px) rotate(6deg); }
+      30% { transform: translate(-3px, -1px) rotate(-4deg); }
+      40% { transform: translate(3px, 3px) rotate(5deg); }
+      50% { transform: translate(-2px, 3px) rotate(-6deg); }
+      60% { transform: translate(3px, -2px) rotate(4deg); }
+      70% { transform: translate(-3px, 1px) rotate(-5deg); }
+      80% { transform: translate(2px, 3px) rotate(6deg); }
+      90% { transform: translate(-2px, -2px) rotate(-3deg); }
+    }
     ::-webkit-scrollbar { height: 0; width: 0; }
   </style>
 </helmet>
@@ -107,6 +127,67 @@
     <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,0);z-index:60;pointer-events:none;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#FFE2D0;background:rgba(96,20,14,0.9);border:1px solid rgba(255,120,95,0.7);border-radius:4px;padding:7px 12px;box-shadow:0 6px 20px rgba(0,0,0,0.6), 0 0 18px rgba(255,70,50,0.35);animation:noRoomToast 1400ms ease-out forwards;">Not enough room</div>
   </sc-if>
 
+  <sc-if value="{{ letterOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:26px 22px;box-sizing:border-box;background:radial-gradient(ellipse 70% 70% at 50% 45%, rgba(6,7,10,0.9) 0%, rgba(3,4,6,0.98) 100%);">
+      <div style="width:min(100%,460px);display:flex;flex-direction:column;align-items:center;gap:26px;opacity:{{ letterOpacity }};transition:opacity 520ms ease;">
+
+        <sc-if value="{{ showFound }}" hint-placeholder-val="{{ true }}">
+          <div style="font-style:italic;font-weight:500;font-size:22px;line-height:1.45;color:#F1E9D2;text-align:center;text-wrap:pretty;">
+            You find an envelope tucked amid some of the cargo.
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showP1 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-height:64vh;overflow:auto;padding:34px 30px 38px;box-sizing:border-box;background:linear-gradient(178deg,#F3EAD1 0%,#E6D9B8 100%);border-radius:2px;box-shadow:0 22px 50px rgba(0,0,0,0.72), 0 1px 0 rgba(255,255,255,0.35) inset;font-family:'Oceanside Typewriter','Courier New',monospace;font-weight:400;font-size:15.5px;line-height:1.8;color:#2B2418;text-wrap:pretty;">
+            <p style="margin:0 0 18px;">Dear friend,</p>
+            <p style="margin:0;">I knew you&rsquo;d have no trouble finding my home away from home. You always were so terribly clever. However, I think it&rsquo;s high time I was honest with you about the real nature of your voyage&hellip;</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showP2 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-height:64vh;overflow:auto;padding:34px 30px 38px;box-sizing:border-box;background:linear-gradient(178deg,#F3EAD1 0%,#E6D9B8 100%);border-radius:2px;box-shadow:0 22px 50px rgba(0,0,0,0.72), 0 1px 0 rgba(255,255,255,0.35) inset;font-family:'Oceanside Typewriter','Courier New',monospace;font-weight:400;font-size:15.5px;line-height:1.8;color:#2B2418;text-wrap:pretty;">
+            <p style="margin:0 0 18px;">There is a secret society. A society of scholars and scientists, whose mission is to protect the natural order.</p>
+            <p style="margin:0;">To defend our world&hellip;</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showP3 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-height:64vh;overflow:auto;padding:34px 30px 38px;box-sizing:border-box;background:linear-gradient(178deg,#F3EAD1 0%,#E6D9B8 100%);border-radius:2px;box-shadow:0 22px 50px rgba(0,0,0,0.72), 0 1px 0 rgba(255,255,255,0.35) inset;font-family:'Oceanside Typewriter','Courier New',monospace;font-weight:400;font-size:15.5px;line-height:1.8;color:#2B2418;text-wrap:pretty;">
+            <p style="margin:0;">Not too long ago, our quiet organization received a foul omen &mdash; a poor portent in the tides that something long dormant was stirring and threatening to breach at a <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">place of inaccessibility.</strong></p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showP4 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-height:64vh;overflow:auto;padding:34px 30px 38px;box-sizing:border-box;background:linear-gradient(178deg,#F3EAD1 0%,#E6D9B8 100%);border-radius:2px;box-shadow:0 22px 50px rgba(0,0,0,0.72), 0 1px 0 rgba(255,255,255,0.35) inset;font-family:'Oceanside Typewriter','Courier New',monospace;font-weight:400;font-size:15.5px;line-height:1.8;color:#2B2418;text-wrap:pretty;">
+            <p style="margin:0 0 18px;">We sent the recipient of this cargo to keep watch over the location, but I do fear for his courage and his sanity. It may seem simple, but your delivery would do well to fortify his spirits. Nothing like a <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">double shot of rum</strong> to strengthen one&rsquo;s mind against the coming dark.</p>
+            <p style="margin:0;">Be warned. He&rsquo;s a skeptical old bird and quite rude. But he will no doubt invite you to share in untold secrets should you earn his trust.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showP5 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-height:64vh;overflow:auto;padding:34px 30px 38px;box-sizing:border-box;background:linear-gradient(178deg,#F3EAD1 0%,#E6D9B8 100%);border-radius:2px;box-shadow:0 22px 50px rgba(0,0,0,0.72), 0 1px 0 rgba(255,255,255,0.35) inset;font-family:'Oceanside Typewriter','Courier New',monospace;font-weight:400;font-size:15.5px;line-height:1.8;color:#2B2418;text-wrap:pretty;">
+            <p style="margin:0;">For fear of wandering eyes, I cannot Point you to his exact coordinates. But <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">reverse</strong> the Omen, and find him you shall.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showTheirs }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div style="font-family:'Oceanside Typewriter','Courier New',monospace;font-size:17px;letter-spacing:0.16em;color:#C9BFA4;">from</div>
+            <div style="display:flex;justify-content:center;gap:2px;font-style:italic;font-weight:700;font-size:clamp(46px,15vw,82px);letter-spacing:0.04em;color:#8E1F17;text-shadow:0 0 22px rgba(196,42,28,0.55), 0 3px 0 rgba(0,0,0,0.5);">
+              <sc-for list="{{ theirsGlyphs }}" as="g" hint-placeholder-count="6">
+                <span style="{{ g.style }}">{{ g.ch }}</span>
+              </sc-for>
+            </div>
+            <div style="font-family:'Oceanside Typewriter','Courier New',monospace;font-size:22px;letter-spacing:0.3em;color:#8E1F17;">&hellip;</div>
+          </div>
+        </sc-if>
+
+        <button onClick="{{ advanceLetter }}" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:15px;color:#1D1D1D;background:#C9A24B;border:none;padding:10px 26px;border-radius:2px;letter-spacing:0.03em;cursor:pointer;" style-hover="background:#E0BE6E;">{{ letterButton }}</button>
+
+      </div>
+    </div>
+  </sc-if>
+
   <a href="./havana-dock.html" style="position:absolute;left:10px;top:8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;text-decoration:none;padding:6px 8px;">&larr;</a>
 
 </div>
@@ -189,7 +270,42 @@ class Component extends DCLogic {
   ghostRef = React.createRef();
   carouselRef = React.createRef();
 
-  state = { placed: [], nextUid: 1, centerIndex: 0, titles: {}, dragging: null, metrics: null, dockRotations: {}, shakeUid: null, roomMsg: 0, glitch: { idx: 0, hue: 0, dx: 0, dy: 0, big: false } };
+  state = { placed: [], nextUid: 1, centerIndex: 0, titles: {}, dragging: null, metrics: null, dockRotations: {}, shakeUid: null, roomMsg: 0, glitch: { idx: 0, hue: 0, dx: 0, dy: 0, big: false }, letterOpen: false, letterStep: 0, letterFading: false };
+
+  LETTER = [
+    { kind: 'found', button: 'What does it say?' },
+    { kind: 'p1', button: 'Turn the page' },
+    { kind: 'p2', button: 'Turn the page' },
+    { kind: 'theirs', button: 'Turn the page' },
+    { kind: 'p3', button: 'Turn the page' },
+    { kind: 'p4', button: 'Turn the page' },
+    { kind: 'p5', button: 'Set sail' },
+  ];
+
+  playFlip() {
+    try {
+      if (!this._flip) { this._flip = new Audio('./assets/page-flip.mp3'); this._flip.volume = 0.7; }
+      const a = this._flip.cloneNode();
+      a.volume = 0.7;
+      a.play().catch(() => {});
+    } catch (e) {}
+  }
+
+  advanceLetter = () => {
+    const next = this.state.letterStep + 1;
+    if (next >= this.LETTER.length) {
+      try {
+        localStorage.setItem('cargoHoldCarriedNormalCargo', this._hasCargo ? '1' : '0');
+        localStorage.setItem('map.pendingCoords', '1');
+      } catch (e) {}
+      window.location.href = "./index.html";
+      return;
+    }
+    this.playFlip();
+    this.setState({ letterFading: true });
+    clearTimeout(this._letterT);
+    this._letterT = setTimeout(() => this.setState({ letterStep: next, letterFading: false }), 520);
+  };
 
   // Candidate nudges, nearest-first: makes drops forgiving instead of exact.
   static NUDGES = [[0,0],[0,-1],[0,1],[-1,0],[1,0],[-1,-1],[-1,1],[1,-1],[1,1]];
@@ -903,9 +1019,26 @@ class Component extends DCLogic {
       headerTitle: solved ? 'That should be everything' : 'Load the Skiff',
       instructionsDisplay: solved ? 'none' : 'block',
       leaveHold: () => {
-        try { localStorage.setItem('cargoHoldCarriedNormalCargo', hasCargo ? '1' : '0'); } catch (e) {}
-        window.location.href = "./index.html";
+        this._hasCargo = hasCargo;
+        this.playFlip();
+        this.setState({ letterOpen: true, letterStep: 0, letterFading: false });
       },
+      letterOpen: this.state.letterOpen,
+      letterOpacity: this.state.letterFading ? 0 : 1,
+      letterStep: this.state.letterStep,
+      letterButton: (this.LETTER[this.state.letterStep] || {}).button || '',
+      showFound: (this.LETTER[this.state.letterStep] || {}).kind === 'found',
+      showP1: (this.LETTER[this.state.letterStep] || {}).kind === 'p1',
+      showP2: (this.LETTER[this.state.letterStep] || {}).kind === 'p2',
+      showP3: (this.LETTER[this.state.letterStep] || {}).kind === 'p3',
+      showP4: (this.LETTER[this.state.letterStep] || {}).kind === 'p4',
+      showP5: (this.LETTER[this.state.letterStep] || {}).kind === 'p5',
+      showTheirs: (this.LETTER[this.state.letterStep] || {}).kind === 'theirs',
+      theirsGlyphs: 'THEIRS'.split('').map((ch, i) => ({
+        ch,
+        style: 'display:inline-block;animation:terrorShake 240ms linear infinite;animation-delay:' + (i * 37) + 'ms;',
+      })),
+      advanceLetter: this.advanceLetter,
       roomMsgShown: this.state.roomMsg > 0,
       hasManifest: manifestTags.length > 0,
       hasNoManifest: manifestTags.length === 0,

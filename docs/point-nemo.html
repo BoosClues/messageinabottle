@@ -475,7 +475,10 @@ class Component extends DCLogic {
     this.letterTimer = setInterval(() => {
       f += 1;
       this.setState({ letterFrame: f });
-      if (f >= 16) clearInterval(this.letterTimer);
+      if (f >= 16) {
+        clearInterval(this.letterTimer);
+        setTimeout(() => { window.location.href = 'https://boosclues.github.io/invite-old-man-in-the-sea/'; }, 900);
+      }
     }, 110);
   };
 

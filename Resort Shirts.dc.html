@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+<style>
+@font-face{font-family:"NeulandInline";src:url("assets/NeulandInline.otf") format("opentype");font-display:swap;}
+@font-face{font-family:"Tuscany";src:url("assets/TakeMeToTuscany.otf") format("opentype");font-display:swap;}
+html,body{margin:0;padding:0;background:#050f14;color:#cfdcd6;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:rgba(200,53,44,.25);}
+a{color:#8fbfa8;text-decoration:none;}
+a:hover{color:#c8352c;}
+@keyframes swell{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+@keyframes drift{0%{transform:translate3d(-4%,0,0)}50%{transform:translate3d(4%,-1.5%,0)}100%{transform:translate3d(-4%,0,0)}}
+@media (max-width:759px){#shirt-nav{gap:8px !important;}#shirt-nav a{padding:12px 10px;}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;}}
+</style>
+</helmet>
+
+<div style="position:relative;width:100%;overflow-x:hidden;background:#050f14;font-family:Georgia,'Times New Roman',serif;">
+
+<header style="position:relative;z-index:20;background:#071a20;border-bottom:1px solid rgba(143,191,168,.14);">
+  <div style="max-width:1180px;margin:0 auto;padding:20px max(20px,6vw);display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between;">
+    <a href="Old Man and the Sea.dc.html" style="font-family:'Tuscany',Georgia,serif;font-size:clamp(22px,2.6vw,32px);line-height:1;color:#c8352c;" style-hover="color:#e0554a;">◂ Back to the invite</a>
+    <nav id="shirt-nav" style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;">
+      <a href="Old Man and the Sea.dc.html#deats" style="color:#c8352c;display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">The manifest</a>
+      <a href="Old Man and the Sea.dc.html#rsvp" style="color:#c8352c;display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">RSVP</a>
+    </nav>
+  </div>
+</header>
+
+<section style="position:relative;padding:clamp(52px,8vw,120px) max(20px,6vw) clamp(30px,4vw,50px);background:#0d2630;overflow:hidden;">
+  <div style="position:absolute;left:-8%;right:-8%;top:0;height:70%;background:radial-gradient(50% 50% at 50% 40%, rgba(143,191,168,.10), rgba(0,0,0,0) 70%);animation:drift 32s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:relative;max-width:1180px;margin:0 auto;">
+    <p style="margin:0 0 16px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Exclusive · Special edition · 2026</p>
+    <h1 style="margin:0;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(30px,5.6vw,66px);line-height:1.06;color:#eef5ee;text-wrap:balance;">Aloha from the Abyss</h1>
+    <p style="margin:22px 0 0;max-width:52ch;font-size:clamp(16px,1.6vw,20px);line-height:1.66;color:#bcd3c8;text-wrap:pretty;">Cthulhu tikis, marlin, tugboats, one very red eye, and our coordinates woven through the print. Wear it and the abyss knows you're expected.</p>
+  </div>
+</section>
+
+<section style="position:relative;padding:clamp(20px,3vw,40px) max(20px,6vw) clamp(52px,8vw,110px);background:#0d2630;">
+  <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(24px,4vw,54px);">
+    <figure style="margin:0;position:relative;border:1px solid rgba(143,191,168,.3);background:#e5ddca;padding:20px 20px 14px;box-shadow:0 30px 70px rgba(0,0,0,.5);">
+      <img src="assets/shirt-front.jpg" alt="Aloha from the Abyss resort shirt, front" style="width:100%;display:block;filter:sepia(.12) saturate(.95) contrast(1.02);animation:swell 9s ease-in-out infinite;" />
+      <figcaption style="margin:14px 0 0;display:flex;justify-content:space-between;gap:12px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5b6b58;">
+        <span>Plate I — Front</span>
+        <span>34°55.5′ / 82°26.9′</span>
+      </figcaption>
+    </figure>
+    <figure style="margin:0;position:relative;border:1px solid rgba(143,191,168,.3);background:#e5ddca;padding:20px 20px 14px;box-shadow:0 30px 70px rgba(0,0,0,.5);">
+      <img src="assets/shirt-back.jpg" alt="Aloha from the Abyss resort shirt, back" style="width:100%;display:block;filter:sepia(.12) saturate(.95) contrast(1.02);" />
+      <figcaption style="margin:14px 0 0;display:flex;justify-content:space-between;gap:12px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5b6b58;">
+        <span>Plate II — Back</span>
+        <span>Full print</span>
+      </figcaption>
+    </figure>
+    <figure style="margin:0;position:relative;border:1px solid rgba(143,191,168,.3);background:#e5ddca;padding:20px 20px 14px;box-shadow:0 30px 70px rgba(0,0,0,.5);">
+      <img src="assets/shirt-model.jpg" alt="Aloha from the Abyss resort shirt, worn" style="width:100%;display:block;filter:sepia(.12) saturate(.95) contrast(1.02);" />
+      <figcaption style="margin:14px 0 0;display:flex;justify-content:space-between;gap:12px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5b6b58;">
+        <span>Plate III — On deck</span>
+        <span>As issued</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section style="position:relative;padding:clamp(52px,8vw,120px) max(20px,6vw);background:#071a20;border-top:1px solid rgba(143,191,168,.12);">
+  <div style="max-width:760px;margin:0 auto;text-align:center;">
+    <h2 style="margin:0 0 18px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(24px,3.6vw,46px);line-height:1.06;color:#e6efe6;">How to get one</h2>
+    <p style="margin:0 0 34px;font-size:17px;line-height:1.66;color:#a9c2b8;text-wrap:pretty;">There is no cart, no checkout, no form. Text me your size and I'll put you down on the order. Sizes S through XXL, while the print run lasts.</p>
+    <a href="sms:17348902092" style="display:inline-block;padding:19px 34px;background:#c8352c;border:1px solid #e0554a;color:#f3ece0;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.26em;text-transform:uppercase;" style-hover="background:#a52a22;color:#fff;">Text 734-890-2092 ▸</a>
+    <p style="margin:26px 0 0;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#6d8f88;">RSVP is for the party only — shirts are handled by text.</p>
+  </div>
+</section>
+
+<footer style="position:relative;padding:clamp(44px,6vw,86px) max(20px,6vw);background:#050f14;border-top:1px solid rgba(143,191,168,.14);">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
+    <a href="Old Man and the Sea.dc.html" style="font-family:'Tuscany',Georgia,serif;font-size:clamp(20px,2.4vw,30px);color:#cfe3d6;" style-hover="color:#c8352c;">◂ Old Man and the Sea</a>
+    <p style="margin:0;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#6d8f88;">34°55.5′ N / 82°26.9′ W · Havana · Point Nemo</p>
+  </div>
+</footer>
+
+</div>
+
+</x-dc>
+</body>
+</html>

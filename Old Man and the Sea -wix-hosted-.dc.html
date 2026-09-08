@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 56"><rect width="120" height="56" fill="#0d2630"></rect><text x="60" y="26" font-size="13" fill="#eef5ee" text-anchor="middle" font-family="Georgia,serif">Old Man</text><text x="60" y="42" font-size="13" fill="#c8352c" text-anchor="middle" font-family="Georgia,serif">& the Sea</text></svg></template>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap">
+<style>
+@font-face{font-family:"NeulandInline";src:url("assets/NeulandInline.otf") format("opentype");font-display:swap;}
+@font-face{font-family:"Tuscany";src:url("assets/TakeMeToTuscany.otf") format("opentype");font-display:swap;}
+@keyframes dodoPulse{0%,100%{box-shadow:0 2px 0 #8E1610, 0 6px 14px rgba(0,0,0,.28);}50%{box-shadow:0 2px 0 #8E1610, 0 10px 22px rgba(255,59,48,.45);}}
+@keyframes dodoArrow{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+html,body{margin:0;padding:0;background:#050f14;color:#cfdcd6;}
+*{box-sizing:border-box;}
+a{color:#8fbfa8;text-decoration:none;}
+a:hover{color:#c8352c;}
+@keyframes drift{0%{transform:translate3d(-4%,0,0)}50%{transform:translate3d(4%,-1.5%,0)}100%{transform:translate3d(-4%,0,0)}}
+@keyframes swell{0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+@keyframes bob{0%,100%{transform:scaleX(-1) translateY(0)}50%{transform:scaleX(-1) translateY(-10px)}}
+@keyframes lamp{0%,100%{opacity:.25}45%{opacity:.9}55%{opacity:.35}}
+@keyframes waveslide{0%{background-position:0 0}100%{background-position:1200px 0}}
+@keyframes fadeup{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+.js-reveal .rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);}
+input:focus,select:focus{outline:none;border-color:#c8352c !important;}
+input::placeholder{color:#4d6a68;}
+*{-webkit-tap-highlight-color:rgba(200,53,44,.25);}
+
+@media (max-width:759px){
+  #netrail{width:62px !important;right:2px !important;}
+  #netpod{width:62px !important;height:90px !important;}
+  #netpod img{width:62px !important;height:90px !important;}
+  #boatberth{width:62px !important;left:auto !important;right:2px !important;bottom:6px !important;padding-right:0 !important;}
+  #hdr-band{padding:18px 18px 25px !important;justify-content:flex-start !important;}
+  #hdr-band > a{font-size:28px !important;padding-right:66px;}
+  #hdr-water{height:20px !important;}
+  #hero-copy{padding:96px 6vw 120px !important;}
+  #hero-copy h1{line-height:1.22 !important;}
+  #hero-copy p{margin-top:16px !important;}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;}}
+</style>
+</helmet>
+
+<div id="page" style="position:relative;width:100%;overflow-x:hidden;background:#050f14;font-family:Georgia,'Times New Roman',serif;">
+
+<div id="netrail" aria-hidden="true" style="position:fixed;top:0;right:clamp(4px,1.4vw,20px);bottom:0;width:66px;z-index:15;pointer-events:none;opacity:0;transition:opacity .6s ease;">
+  <div id="netrope" style="position:absolute;left:50%;top:0;width:3px;height:0;margin-left:-1.5px;background:linear-gradient(90deg,#241a10,#8a6a45 45%,#4a3620);box-shadow:0 0 10px rgba(0,0,0,.55);"></div>
+  <div id="netpod" title="Haul the net — drag to sound the depths" style="position:absolute;left:0;top:0;width:66px;height:95px;pointer-events:auto;cursor:grab;touch-action:none;animation:sway 6.5s ease-in-out infinite;transform-origin:50% 0;filter:drop-shadow(0 12px 18px rgba(0,0,0,.6));">
+    <img data-net="0" src="https://static.wixstatic.com/media/77f907_2265bfbd6d8e413daba645f5a8eab301~mv2.png" alt="" style="position:absolute;top:0;left:0;width:66px;height:95px;object-fit:contain;object-position:top center;opacity:1;transition:opacity .5s ease;">
+    <img data-net="1" src="https://static.wixstatic.com/media/77f907_e071735f5dc443a6a142840301eaf478~mv2.png" alt="" style="position:absolute;top:0;left:0;width:66px;height:95px;object-fit:contain;object-position:top center;opacity:0;transition:opacity .5s ease;">
+    <img data-net="2" src="https://static.wixstatic.com/media/77f907_d4f20994434a4f49a74913e9a6758204~mv2.png" alt="" style="position:absolute;top:0;left:0;width:66px;height:95px;object-fit:contain;object-position:top center;opacity:0;transition:opacity .5s ease;">
+    <img data-net="3" src="https://static.wixstatic.com/media/77f907_262a7c2077404da79b994734f78d972f~mv2.png" alt="" style="position:absolute;top:0;left:0;width:66px;height:95px;object-fit:contain;object-position:top center;opacity:0;transition:opacity .5s ease;">
+  </div>
+</div>
+
+
+
+
+<header style="position:relative;z-index:20;background:#eceae4 url('./ocean-menu-mtlkksfe-9506.png') center 88% / cover no-repeat;border-bottom:0;overflow:hidden;">
+  
+<div id="hdr-band" style="max-width:1180px;margin:0 auto;padding:22px max(18px,6vw) 26px;display:flex;flex-wrap:wrap;gap:14px 32px;align-items:center;justify-content:space-between;background-color:#eceae4;position:relative;">
+    <a href="#rsvp-form" style="font-family: NeulandInline; font-size: clamp(22px,2.6vw,32px); line-height: 1; color: #c8352c; text-shadow: 0 1px 0 rgba(255,255,255,.9)" style-hover="color:#e0554a;">You're Invited</a><nav id="hero-nav" style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;padding-right:196px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;">
+      <a href="#deats" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.85);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">VVV</a><a href="#galley" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.55);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">Galley</a><a href="#salvage" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.85);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">Salvage</a>
+      <a href="Resort Shirts.dc.html" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.85);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">Resort shirts</a><a href="#top" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.85);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">Invite</a>
+      
+      
+      <a href="#rsvp" style="color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.85);display:inline-flex;align-items:center;min-height:44px;" style-hover="color:#e0554a;">RSVP</a>
+    </nav>
+    
+  <div id="hdr-water" aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:26px;background-image:url('https://static.wixstatic.com/media/77f907_7a2425130f6f4c38892ae7192648b1ce~mv2.png');background-repeat:no-repeat;background-size:100% 100%;background-position:center top;"></div>
+
+  <div id="boatberth" style="position:absolute;z-index:6;left:auto;right:clamp(84px,9vw,120px);bottom:14px;width:104px;line-height:0;">
+    <img id="trawler-hdr" src="https://static.wixstatic.com/media/77f907_98fcc64af49d49d89dfef15fed232f4a~mv2.png" alt="Set the trawler underway — dive to the log" title="Weigh anchor" onClick="{{ boatSequence }}" style="position:relative;z-index:2;width: 100%; height: auto; display: block; cursor: pointer; transform: scaleX(-1); transform-origin: center; animation: bob 7s ease-in-out infinite; filter: drop-shadow(0 10px 16px rgba(0,0,0,.55)) saturate(.9) brightness(.94); margin-right: 0px; opacity: 1">
+    <img id="trawler-dropped" src="https://static.wixstatic.com/media/77f907_86389c2c51ea463ea61277b76e1b4f24~mv2.png" alt="" aria-hidden="true" style="position:absolute;top:0;left:0;z-index:3;width:100%;height:auto;display:block;pointer-events:none;transform:scaleX(-1);transform-origin:center;filter:drop-shadow(0 10px 16px rgba(0,0,0,.55)) saturate(.9) brightness(.94);opacity:0;">
+    <div id="boat-splash" aria-hidden="true" style="position:absolute;right:2%;bottom:-6px;z-index:4;width:44px;height:18px;border-radius:50%;background:radial-gradient(closest-side, rgba(230,245,238,.95), rgba(230,245,238,0) 72%);opacity:0;transform:scale(.4);transition:opacity .45s ease, transform .48s ease;pointer-events:none;"></div>
+  </div></div></header>
+
+
+
+
+
+<section id="top" style="position: relative; margin-top: -1px; background: #050f14; padding: 0 0 clamp(46px,6vw,86px)">
+  <div style="position: relative; width: 100%; min-height: clamp(520px,78svh,760px); display: flex; align-items: flex-end; overflow: hidden">
+    <div data-par="0.28" style="position:absolute;inset:-12% 0 0 0;background-image:url('https://static.wixstatic.com/media/77f907_4867dfa81964430799dc77b40abfc93f~mv2.png');background-size:cover;background-position:center;will-change:transform;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,15,20,.35) 0%, rgba(5,15,20,0) 34%, rgba(5,15,20,.45) 74%, rgba(5,15,20,.92) 100%);pointer-events:none;"></div>
+    <div style="position:absolute;left:-10%;right:-10%;top:14%;height:52%;background:radial-gradient(60% 50% at 30% 50%, rgba(143,191,168,.10), rgba(0,0,0,0) 70%);animation:drift 26s ease-in-out infinite;pointer-events:none;"></div>
+
+    <div id="hero-copy" style="position:relative;width:100%;max-width:1180px;margin:0 auto;padding:clamp(72px,14vh,190px) 6vw clamp(64px,9vh,110px);">
+      <h1 style="margin:0;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(30px,5.2vw,62px);line-height:1.14;letter-spacing:.01em;color:#e6efe6;text-shadow:0 2px 30px rgba(5,15,20,.85);text-wrap:balance;">Traitor<br>Quoth's<br>Tropical<br>Tiki<br>Turnout</h1>
+      <p style="margin:22px 0 0;font-family:'Playfair Display',Georgia,serif;font-size:clamp(17px,2vw,22px);letter-spacing:.04em;color:#8fbfa8;font-style:italic;font-weight:700;text-shadow:0 2px 18px rgba(5,15,20,.8);">For the Terribly Clever</p>
+      
+    </div>
+
+    
+
+    
+  </div>
+
+  
+</section><section id="log" data-depth="1" style="position: relative; padding: clamp(56px,9vw,130px) max(20px,6vw); background: #071a20; border-top: 1px solid rgba(143,191,168,.12); overflow: hidden; min-height: 320px">
+  <div data-par="-0.12" style="position:absolute;right:-6%;top:-10%;width:min(620px,58vw);opacity:.16;mix-blend-mode:screen;will-change:transform;-webkit-mask-image:radial-gradient(65% 65% at 50% 45%, #000 20%, transparent 100%);mask-image:radial-gradient(65% 65% at 50% 45%, #000 20%, transparent 100%);">
+    <img src="https://static.wixstatic.com/media/77f907_f64ceaabb7064716917a0cc42da3e0bf~mv2.png" alt="" style="width:100%;display:block;filter:grayscale(1) contrast(1.25);">
+  </div>
+  <div class="rv" style="position:relative;max-width:760px;">
+    <p style="margin:0 0 26px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">From the log of a discarded man</p>
+    <p style="margin:0;font-family:'Tuscany',Georgia,serif;font-size:clamp(24px,3.6vw,44px);line-height:1.3;color:#dbe8de;text-wrap:pretty;">“Do not set sail here. Do not even face the water. Keep your back to it. See my scales, my crushed hand, my useless arm. They are the fins of a trash fish. But you are a trophy. This I can tell.”</p>
+    <p style="margin:28px 0 0;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.16em;color:#6d8f88;">— The Trawler's Net</p>
+  </div>
+</section><section id="deats" style="position:relative;padding:clamp(56px,9vw,130px) max(20px,6vw);background:#050f14;">
+  <div style="max-width:1180px;margin:0 auto;">
+    <h2 class="rv" style="margin:0 0 48px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(28px,4.4vw,58px);line-height:1;color:#e6efe6;">The Manifest</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:2px;background:rgba(143,191,168,.14);">
+      <div class="rv" style="background:#081c22;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Who</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">You. And one other soul, if you keep one.</p>
+      </div>
+      <div class="rv" style="background:#081c22;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">What</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">A scary-nautical tiki Halloween party, and a wake for a man's twenties.</p>
+      </div>
+      <div class="rv" style="background:#081c22;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">When</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">Halloween night. 7 p.m. until the tide turns.</p>
+      </div>
+      <div class="rv" style="background:#081c22;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Where</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">Port of call released to RSVP'd hands one week prior.</p>
+      </div>
+      <div class="rv" style="background:#081c22;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Why</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">You read the bottle. You turned the strip. You found Cuba. Clever hands deserve rum.</p>
+      </div>
+      <div class="rv" style="background:#0d2630;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8fbfa8;">Bring</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#cfe3d6;">Your tiki mug. A shareable, or don't. A ghost sheet — the sea keeps what it takes.</p>
+      </div>
+    </div>
+    <p class="rv" style="margin:34px 0 0;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.14em;color:#6d8f88;">Text 734-890-2092 with all party-related questions.</p>
+  </div>
+</section>
+
+<section style="position:relative;padding:clamp(58px,10vw,150px) max(20px,6vw);background:#071a20;overflow:hidden;border-top:1px solid rgba(143,191,168,.12);">
+  <div data-par="0.18" style="position:absolute;left:50%;top:-8%;transform:translateX(-50%);width:min(900px,92vw);opacity:.1;mix-blend-mode:screen;will-change:transform;-webkit-mask-image:radial-gradient(60% 60% at 50% 45%, #000 15%, transparent 100%);mask-image:radial-gradient(60% 60% at 50% 45%, #000 15%, transparent 100%);">
+    <img src="https://static.wixstatic.com/media/77f907_87305995a4344b72b6ab0322d0127585~mv2.png" alt="" style="width:100%;display:block;filter:grayscale(1) contrast(1.2);">
+  </div>
+  <div style="position:relative;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(28px,4vw,64px);align-items:start;">
+    <div class="rv">
+      <h3 style="margin:0 0 18px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(22px,2.8vw,38px);line-height:1.05;color:#e6efe6;">Costumes are a yes</h3>
+      <p style="margin:0;font-size:17px;line-height:1.66;color:#a9c2b8;text-wrap:pretty;">Drowned, dredged, or merely damp. Your ghost sheet is not a costume — it is paperwork for the hereafter.</p>
+    </div>
+    <div class="rv">
+      <h3 style="margin:0 0 18px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(22px,2.8vw,38px);line-height:1.05;color:#e6efe6;">There will be rum</h3>
+      <p style="margin:0;font-size:17px;line-height:1.66;color:#a9c2b8;text-wrap:pretty;">Papa Doble, poured heavy and unsweetened, the way a man orders when he is running out of afternoons. Seltzers for the sensible.</p>
+    </div>
+    <div class="rv">
+      <h3 style="margin:0 0 18px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(22px,2.8vw,38px);line-height:1.05;color:#e6efe6;">Be ready for anything</h3>
+      <p style="margin:0;font-size:17px;line-height:1.66;color:#a9c2b8;text-wrap:pretty;">Something is singing past the fronds, below the waterline. The activity continues. Participation is non-negotiable.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="galley" style="position:relative;padding:clamp(56px,9vw,130px) max(20px,6vw);background:#0d2630;border-top:1px solid rgba(143,191,168,.12);overflow:hidden;">
+  <div style="position:absolute;left:-10%;right:-10%;top:6%;height:60%;background:radial-gradient(50% 50% at 50% 45%, rgba(200,53,44,.08), rgba(0,0,0,0) 70%);animation:drift 30s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:relative;max-width:1180px;margin:0 auto;">
+    <p class="rv" style="margin:0 0 16px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Provisions · Catered</p>
+    <h2 class="rv" style="margin:0 0 22px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(28px,4.4vw,58px);line-height:1.04;color:#eef5ee;text-wrap:balance;">Food &amp; Drink</h2>
+    <p class="rv" style="margin:0 0 clamp(34px,5vw,56px);max-width:56ch;font-size:clamp(16px,1.6vw,20px);line-height:1.66;color:#bcd3c8;text-wrap:pretty;">A low country boil from <strong style="color:#e6efe6;font-weight:400;">Home Team BBQ</strong> — hauled out hot, dumped on the table, eaten with your hands. Come hungry. Nobody plates a boil.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:2px;background:rgba(143,191,168,.14);">
+      <div class="rv" style="background:#08202a;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">The boil</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">Shrimp, andouille, corn, red potatoes, and enough Old Bay to season a hull. Served at 8.</p>
+      </div>
+      <div class="rv" style="background:#08202a;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">The rum</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">Papa Dobles, poured heavy and unsweetened. Beer and seltzer for the sensible. Bring your tiki mug.</p>
+      </div>
+      <div class="rv" style="background:#08202a;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">Bring nothing</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#b7cdc2;">Dinner is handled. If your hands feel empty, a bottle of something brown is never turned away.</p>
+      </div>
+      <div class="rv" style="grid-column:1/-1;background:#132f38;padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);">
+        <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8fbfa8;">Can't eat it?</p>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#cfe3d6;">Shellfish allergy or otherwise — say so in your RSVP and there'll be a plate that won't kill you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rsvp" style="position:relative;padding:clamp(58px,10vw,150px) max(20px,6vw) clamp(80px,10vw,160px);background:#050f14;overflow:hidden;">
+  <div style="position:absolute;left:-8%;right:-8%;top:10%;height:60%;background:radial-gradient(50% 50% at 50% 50%, rgba(200,53,44,.09), rgba(0,0,0,0) 70%);animation:drift 34s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:relative;max-width:760px;margin:0 auto;">
+    <h2 class="rv" style="margin:0 0 14px;text-align:center;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(32px,5.4vw,72px);line-height:1;color:#e6efe6;">RSVP</h2>
+    <p class="rv" style="margin:0 0 46px;text-align:center;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#8fbfa8;">The old man is counting places at the rail</p>
+
+    <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid rgba(143,191,168,.3);background:#081c22;padding:clamp(34px,5vw,60px);text-align:center;">
+        <p style="margin:0 0 14px;font-family:'Tuscany',Georgia,serif;font-size:clamp(26px,4vw,44px);line-height:1.2;color:#e6efe6;">Your name is in the log.</p>
+        <p style="margin:0;font-size:17px;line-height:1.66;color:#a9c2b8;">The port of call arrives by text one week prior. Until then, keep your back to the water.</p>
+      </div>
+    </sc-if>
+
+    <div id="rsvp-form" style="scroll-margin-top:82px;"></div>
+    <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubmit }}" novalidate="novalidate" style="display:grid;gap:22px;border:1px solid rgba(143,191,168,.18);background:#081c22;padding:clamp(26px,4vw,48px);">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:22px;">
+          <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">First name
+            <input name="first" type="text" placeholder="Santiago" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;">
+          </label>
+          <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">Last name
+            <input name="last" type="text" placeholder="of the Gulf" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;">
+          </label>
+        </div>
+        <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">Phone — to receive the port of call
+          <input name="phone" type="tel" placeholder="734 890 2092" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;">
+        </label>
+        
+        <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:8px 0;font-size:16px;line-height:1.5;color:#b7cdc2;">
+          <input name="plusone" type="checkbox" style="width:24px;height:24px;margin-top:2px;accent-color:#c8352c;flex:0 0 auto;">
+          <span>I come accompanied.</span>
+        </label>
+        <label style="display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:8px 0;font-size:16px;line-height:1.5;color:#b7cdc2;">
+          <input name="sheet" type="checkbox" style="width:24px;height:24px;margin-top:2px;accent-color:#c8352c;flex:0 0 auto;">
+          <span>I will not forget a ghost sheet. The sea keeps what it takes.</span>
+        </label>
+        <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.12em;color:#e0554a;">{{ errorText }}</p>
+        </sc-if>
+        <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">Allergies or things you can't eat
+          <input name="diet" type="text" placeholder="Shellfish, or none" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;min-height:52px;" />
+        </label>
+        <p style="margin:0;padding:16px 18px;border:1px solid rgba(143,191,168,.2);background:#050f14;font-size:15px;line-height:1.6;color:#8fbfa8;">Shirts are not sold here. Text <a href="sms:17348902092" style="color:#c8352c;">734-890-2092</a> to claim one.</p>
+        <button type="submit" style="width:100%;padding:21px 24px;min-height:56px;background:#c8352c;border:1px solid #e0554a;color:#f3ece0;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;" style-hover="background:#a52a22;">Acquiesce</button>
+      </form>
+    </sc-if>
+
+    <div id="salvage" style="margin-top:clamp(60px,8vw,100px);padding-top:clamp(46px,7vw,76px);border-top:1px solid rgba(143,191,168,.2);scroll-margin-top:90px;">
+      <p class="rv" style="margin:0 0 14px;text-align:center;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">First hands only · {{ salvageLeftLabel }}</p>
+      <h3 class="rv" style="margin:0 0 18px;text-align:center;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(26px,4vw,46px);line-height:1.06;color:#eef5ee;text-wrap:balance;">Salvage Rights</h3>
+      <p class="rv" style="margin:0 auto clamp(30px,4.4vw,44px);max-width:56ch;text-align:center;font-size:16px;line-height:1.66;color:#bcd3c8;text-wrap:pretty;">You are here early, which means you turned the strip before the others did. The wreck gives up five things. Take <strong style="color:#e6efe6;font-weight:400;">one</strong> — the sea keeps count, and so does the old man.</p>
+
+      <sc-if value="{{ hasClaim }}" hint-placeholder-val="{{ false }}">
+        <div class="rv" style="margin:0 0 clamp(26px,4vw,38px);border:1px solid rgba(143,191,168,.34);background:#081c22;padding:clamp(22px,4vw,34px);">
+          <p style="margin:0 0 10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8fbfa8;">Hauled up and held for you</p>
+          <p style="margin:0 0 12px;font-family:'Tuscany',Georgia,serif;font-size:clamp(22px,3.2vw,36px);line-height:1.2;color:#e6efe6;">{{ claimPrizeName }}</p>
+          <p style="margin:0 0 18px;font-size:16px;line-height:1.66;color:#a9c2b8;">Logged to {{ claimHolder }}. Collect it at the party — it will not be handed twice. One claim per soul.</p>
+          <button type="button" onClick="{{ releaseClaim }}" style="padding:12px 18px;min-height:44px;background:transparent;border:1px solid rgba(143,191,168,.3);color:#8fbfa8;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;" style-hover="border-color:#c8352c;color:#e0554a;">Not me — release it</button>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:2px;background:rgba(143,191,168,.14);">
+        <sc-for list="{{ prizes }}" as="item" hint-placeholder-count="5">
+          <div class="rv" style="{{ item.cardStyle }}">
+            <p style="margin:0 0 12px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:{{ item.tagColor }};">{{ item.remainLabel }}</p>
+            <p style="margin:0 0 10px;font-family:'NeulandInline',Georgia,serif;font-size:clamp(16px,1.7vw,20px);line-height:1.2;color:#e6efe6;">{{ item.name }}</p>
+            <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#a9c2b8;text-wrap:pretty;">{{ item.line }}</p>
+            <button type="button" onClick="{{ item.onClaim }}" disabled="{{ item.disabled }}" style="{{ item.btnStyle }}" style-hover="{{ item.btnHover }}">{{ item.btnLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ picking }}" hint-placeholder-val="{{ false }}">
+        <form onSubmit="{{ confirmClaim }}" novalidate="novalidate" style="margin:2px 0 0;display:grid;gap:20px;border:1px solid rgba(200,53,44,.4);background:#081c22;padding:clamp(22px,4vw,36px);">
+          <p style="margin:0;font-family:'Tuscany',Georgia,serif;font-size:clamp(20px,2.8vw,30px);line-height:1.25;color:#e6efe6;">Claiming {{ pickedName }}</p>
+          <p style="margin:0;font-size:16px;line-height:1.6;color:#a9c2b8;">Your name and number hold it. Same number, same claim — the log will know you if you come back.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
+            <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">Your name
+              <input name="cname" type="text" placeholder="Santiago" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;min-height:52px;" />
+            </label>
+            <label style="display:grid;gap:10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8fbfa8;">Phone
+              <input name="cphone" type="tel" placeholder="734 890 2092" style="width:100%;padding:14px 16px;background:#050f14;border:1px solid rgba(143,191,168,.28);color:#e6efe6;font-family:Georgia,serif;font-size:17px;min-height:52px;" />
+            </label>
+          </div>
+          <sc-if value="{{ claimError }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.12em;color:#e0554a;">{{ claimErrorText }}</p>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <button type="submit" style="flex:1 1 200px;padding:19px 24px;min-height:56px;background:#c8352c;border:1px solid #e0554a;color:#f3ece0;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;" style-hover="background:#a52a22;">Take it</button>
+            <button type="button" onClick="{{ cancelPick }}" style="flex:0 0 auto;padding:19px 22px;min-height:56px;background:transparent;border:1px solid rgba(143,191,168,.28);color:#8fbfa8;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;" style-hover="border-color:#c8352c;color:#e0554a;">Back</button>
+          </div>
+        </form>
+      </sc-if>
+
+      <p class="rv" style="margin:30px 0 0;text-align:center;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.14em;line-height:1.8;color:#6d8f88;">One claim per soul, held by name and number. If the count looks wrong, text <a href="sms:17348902092" style="color:#c8352c;">734-890-2092</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section style="position:relative;padding:clamp(50px,7vw,90px) max(20px,6vw);background:#071a20;border-top:1px solid rgba(143,191,168,.12);display:flex;justify-content:center;">
+  <a href="Resort Shirts.dc.html" style="display:block;width:100%;max-width:340px;aspect-ratio:320/480;position:relative;overflow:hidden;background:#F3EDE0;box-shadow:0 24px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.35);text-decoration:none;transition:transform .25s ease;" style-hover="transform:translateY(-4px);">
+    <div style="position:absolute;inset:0;border:6px solid #F3EDE0;outline:1px solid rgba(255,59,48,.55);outline-offset:-7px;pointer-events:none;z-index:6;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:61%;overflow:hidden;background:#DDE3E0;">
+      <img src="https://static.wixstatic.com/media/77f907_cd3241c01a634a4e9fefa985f222bf45~mv2.png" alt="Couple in DODO resort shirts aboard a sailing yacht" style="width:100%;height:100%;object-fit:cover;object-position:34% 62%;display:block;filter:saturate(1.02) contrast(1.02);">
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(243,237,224,.45) 0%, rgba(243,237,224,0) 26%, rgba(243,237,224,0) 74%, rgba(243,237,224,.92) 100%);"></div>
+      <div style="position:absolute;top:14px;right:14px;text-align:right;font-size:7px;letter-spacing:.34em;text-transform:uppercase;color:#1F3A46;line-height:1.9;text-shadow:0 1px 2px rgba(243,237,224,.8);">New<br>Selections</div>
+    </div>
+    <div style="position:absolute;top:12px;left:16px;z-index:5;display:flex;flex-direction:column;align-items:flex-start;">
+      <div style="font-family:'Tuscany','Playfair Display',cursive;font-size:clamp(32px,15vw,50px);line-height:1;color:#FF3B30;text-shadow:0 2px 6px rgba(0,0,0,.22);">DODO</div>
+      <div style="margin:2px 0 0 3px;padding:2px 6px;background:rgba(243,237,224,.55);font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#14232B;text-shadow:0 1px 3px rgba(243,237,224,.85);">Aloha Resort Shirts</div>
+    </div>
+    <div style="position:absolute;top:63%;bottom:20px;left:20px;right:20px;z-index:5;display:flex;flex-direction:column;justify-content:space-between;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="height:1px;flex:1;background:linear-gradient(to right, rgba(31,58,70,0), #1F3A46);"></div>
+        <div style="font-size:7.5px;letter-spacing:.36em;text-transform:uppercase;color:#1F3A46;line-height:1;">Pictured: From the Abyss</div>
+      </div>
+      <div>
+        <h3 style="margin:0;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(24px,7vw,34px);line-height:.98;text-wrap:balance;color:#FF3B30;letter-spacing:-.005em;">Proper Plumage</h3>
+        <div style="margin-top:8px;font-size:10.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#14232B;line-height:1.35;">For Southbound Ghouls</div>
+      </div>
+      <p style="margin:0;font-size:11.5px;line-height:1.6;letter-spacing:.015em;color:#241F1A;">Best for the bird that never minds what's below.<br>100% cotton, machine washable.</p>
+      <span style="align-self:flex-start;margin-top:2px;position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;background:#FF3B30;color:#FFF6EC;font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;animation:dodoPulse 3.2s ease-in-out infinite;"><span>Get Yours by <span style="font-size:12px;">10/12</span></span><span style="display:inline-block;animation:dodoArrow 1.8s ease-in-out infinite;">→</span></span>
+    </div>
+    <div style="position:absolute;inset:0;z-index:7;pointer-events:none;mix-blend-mode:multiply;opacity:.16;background-image:radial-gradient(rgba(90,70,40,.9) .5px, transparent .6px);background-size:3px 3px;"></div>
+  </a>
+</section>
+
+<footer style="position:relative;padding:clamp(44px,6vw,86px) max(20px,6vw);background:#071a20;border-top:1px solid rgba(143,191,168,.14);overflow:hidden;">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:30px;align-items:center;justify-content:space-between;">
+    <img src="https://static.wixstatic.com/media/77f907_d1eacc8f29e041c29863ba4dd863dceb~mv2.png" alt="" style="height:120px;width:auto;display:block;opacity:.85;filter:saturate(.7) brightness(.85);">
+    <div style="max-width:44ch;">
+      <p style="margin:0 0 10px;font-family:'Tuscany',Georgia,serif;font-size:clamp(20px,2.4vw,30px);color:#cfe3d6;">Something wicked this way swims.</p>
+      <p style="margin:0;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#6d8f88;">34°55.5′ N / 82°26.9′ W · Havana · Point Nemo</p>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { submitted: false, error: false, errorText: "", claim: null, picking: null, claimError: false, claimErrorText: "", ledger: {} };
+
+  static PRIZES = [
+    { id: "ghost", name: "Ghost tiki mug", line: "Ceramic, glazed the white of a sheet nobody came back under. Drink from it all night.", stock: 1 },
+    { id: "cthulhu", name: "Cthulhu tiki mug", line: "Tentacled, abyss-green. Holds more rum than is advisable for a man with plans.", stock: 1 },
+    { id: "tribal", name: "Tribal tiki mug", line: "The carved-face classic. Four of them came up in the net.", stock: 4 },
+    { id: "harpoon", name: "The elder's harpoon", line: "Off the trawler. Carry it into the vampire game and you turn a vote outright — the rest of them must be unanimous to name an elder over you.", stock: 1 },
+    { id: "marlinspike", name: "The Marlinspike", line: "A sailor's final defense against all manner of knots and nocturnal. If condemned to the depths, take one more with you before you go.", stock: 1 },
+    { id: "shirt", name: "A Dodo Aloha resort shirt", line: "The one everyone else has to text for. Yours for nothing but being early — size sorted by text after.", stock: 1 }
+  ];
+
+  _storeKey = "oms-salvage-claim-v1";
+
+  _loadClaim() {
+    try {
+      const raw = window.localStorage.getItem(this._storeKey);
+      if (raw) this.setState({ claim: JSON.parse(raw) });
+    } catch (err) {}
+    const led = {};
+    String(this.props.claimedLedger || "").split(",").forEach((pair) => {
+      const [k, v] = pair.split(":").map((s) => (s || "").trim());
+      if (k && v) led[k] = parseInt(v, 10) || 0;
+    });
+    this.setState({ ledger: led });
+  }
+
+  _remaining(p) {
+    const taken = (this.state.ledger || {})[p.id] || 0;
+    const mine = this.state.claim && this.state.claim.id === p.id ? 1 : 0;
+    return Math.max(0, p.stock - taken - mine);
+  }
+
+  pickPrize = (id) => {
+    if (this.state.claim) return;
+    this.setState({ picking: id, claimError: false });
+    setTimeout(() => {
+      const el = document.querySelector("#salvage form");
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 90, behavior: "smooth" });
+    }, 60);
+  };
+
+  cancelPick = () => this.setState({ picking: null, claimError: false });
+
+  confirmClaim = (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const name = (f.cname.value || "").trim();
+    const phone = (f.cphone.value || "").replace(/[^0-9]/g, "");
+    if (name.length < 2) return this.setState({ claimError: true, claimErrorText: "A name, so the old man knows whose hands." });
+    if (phone.length < 10) return this.setState({ claimError: true, claimErrorText: "Ten digits — the claim is held by number." });
+    const claim = { id: this.state.picking, name, phone, at: new Date().toISOString() };
+    try { window.localStorage.setItem(this._storeKey, JSON.stringify(claim)); } catch (err) {}
+    this.setState({ claim, picking: null, claimError: false });
+    setTimeout(() => {
+      const el = document.getElementById("salvage");
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 20, behavior: "smooth" });
+    }, 60);
+  };
+
+  releaseClaim = () => {
+    try { window.localStorage.removeItem(this._storeKey); } catch (err) {}
+    this.setState({ claim: null, picking: null });
+  };
+
+  componentDidMount() {
+    this._loadClaim();
+    this._layers = Array.from(document.querySelectorAll("[data-par]"));
+    this._onScroll = () => {
+      const now = Date.now();
+      if (this._last && now - this._last < 16) return;
+      this._last = now;
+      const vh = window.innerHeight;
+      if (window.innerWidth < 760) { (this._layers || []).forEach((el) => { el.style.transform = el.dataset.baseTransform || ""; }); return; }
+      (this._layers || []).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -300 || r.top > vh + 300) return;
+        const k = parseFloat(el.getAttribute("data-par")) || 0;
+        el.style.transform = (el.dataset.baseTransform || "") + " translate3d(0," + ((r.top + r.height / 2 - vh / 2) * k * -0.35).toFixed(1) + "px,0)";
+      });
+    };
+    this._layers.forEach((el) => {
+      const t = el.style.transform;
+      if (t) el.dataset.baseTransform = t;
+    });
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this._onScroll();
+
+    this._io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("in"); e.target.style.opacity = "1"; e.target.style.transform = "none"; this._io.unobserve(e.target); }
+      }),
+      { threshold: 0.12 }
+    );
+    this._bindReveals();
+    this._initNet();
+    [120, 600, 1600].forEach((t) => setTimeout(() => { this._bindReveals(); this._initNet(); if (this._paintNet) this._paintNet(); }, t));
+  }
+
+  _bindReveals() {
+    if (!this._io) return;
+    this._layers = Array.from(document.querySelectorAll("[data-par]"));
+    document.documentElement.classList.add("js-reveal");
+    document.body.classList.add("js-reveal");
+    const vh = window.innerHeight;
+    document.querySelectorAll(".rv").forEach((el, i) => {
+      if (el.dataset.revealBound) return;
+      el.dataset.revealBound = "1";
+      el.style.animationDelay = (i % 4) * 0.08 + "s";
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.95 && r.bottom > 0) { el.classList.add("in"); el.style.opacity = "1"; el.style.transform = "none"; return; }
+      this._io.observe(el);
+    });
+    if (!this._failsafe) {
+      this._failsafe = true;
+      const revealAll = () => {
+        document.documentElement.classList.remove("js-reveal");
+        document.body.classList.remove("js-reveal");
+        document.querySelectorAll(".rv").forEach((el) => {
+          el.classList.add("in");
+          el.style.opacity = "1";
+          el.style.transform = "none";
+        });
+      };
+      setTimeout(revealAll, 1200);
+      window.addEventListener("load", revealAll);
+      document.addEventListener("visibilitychange", revealAll);
+      window.addEventListener("scroll", () => {
+        const vh2 = window.innerHeight;
+        document.querySelectorAll(".rv:not(.in)").forEach((el) => {
+          const rr = el.getBoundingClientRect();
+          if (rr.top < vh2 * 0.92 && rr.bottom > 0) el.classList.add("in");
+        });
+      }, { passive: true });
+    }
+  }
+
+  componentDidUpdate() {
+    this._bindReveals();
+    if (this._onScroll) this._onScroll();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll);
+    if (this._io) this._io.disconnect();
+    if (this._netRaf) cancelAnimationFrame(this._netRaf);
+  }
+
+  diveNext = () => {
+    const t = document.getElementById("deats");
+    if (!t) return;
+    window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 8, behavior: "smooth" });
+  };
+
+  boatSequence = () => {
+    if (this._boatAnim) return;
+    this._boatAnim = true;
+    const dropped = document.getElementById("trawler-dropped");
+    const splash = document.getElementById("boat-splash");
+    const rail = document.getElementById("netrail");
+    const pod = document.getElementById("netpod");
+    const rope = document.getElementById("netrope");
+    const imgs = pod ? Array.from(pod.querySelectorAll("[data-net]")) : [];
+    const small = window.innerWidth < 760;
+    const TOP = small ? 26 : 40;
+    const POD = small ? 90 : 150;
+    const travel = Math.max(80, window.innerHeight - POD - TOP - 40);
+
+    const base = document.getElementById("trawler-hdr");
+    if (base) base.style.opacity = "0";
+    if (dropped) dropped.style.opacity = "1";
+    if (splash) { splash.style.opacity = "1"; splash.style.transform = "scale(1)"; }
+
+    setTimeout(() => {
+      if (splash) { splash.style.opacity = "0"; splash.style.transform = "scale(1.7)"; }
+      if (rail) rail.style.opacity = "1";
+      if (pod && rope) {
+        const y = (TOP + travel).toFixed(1) + "px";
+        pod.style.top = y;
+        rope.style.height = y;
+      }
+      imgs.forEach((el, k) => { el.style.opacity = k === imgs.length - 1 ? "1" : "0"; });
+    }, 260);
+
+    setTimeout(() => { this.diveNext(); }, 520);
+
+    setTimeout(() => {
+      if (dropped) dropped.style.opacity = "0";
+      if (base) base.style.opacity = "1";
+      this._boatAnim = false;
+    }, 900);
+  };
+
+  _initNet() {
+    const rail = document.getElementById("netrail");
+    const pod = document.getElementById("netpod");
+    const rope = document.getElementById("netrope");
+    if (!rail || !pod || !rope || this._netReady) return;
+    this._netReady = true;
+    const imgs = Array.from(pod.querySelectorAll("[data-net]"));
+    const small = () => window.innerWidth < 760;
+    const TOPof = () => (small() ? 26 : 40);
+    const PODof = () => (small() ? 90 : 150);
+    let dragging = false, shown = -1;
+
+    const boat = document.getElementById("boat");
+    const placeBoat = () => {
+      if (!boat) return;
+      const host = boat.offsetParent || boat.parentElement;
+      if (!host) return;
+      const hostTop = host.getBoundingClientRect().top + window.pageYOffset;
+      const h = boat.offsetHeight || boat.getBoundingClientRect().height || 200;
+      boat.style.top = Math.max(24, window.innerHeight - h - 26 - hostTop).toFixed(1) + "px";
+    };
+    this._placeBoat = placeBoat;
+    placeBoat();
+    if (boat && !boat.complete) boat.addEventListener("load", placeBoat);
+    window.addEventListener("resize", placeBoat);
+
+    const page = document.getElementById("page");
+    const sy = () => Math.max(
+      window.pageYOffset || 0,
+      document.documentElement.scrollTop || 0,
+      document.body.scrollTop || 0,
+      page ? page.scrollTop || 0 : 0
+    );
+    const scroller = () => {
+      if (page && page.scrollHeight - page.clientHeight > 40 && page.scrollTop > 0) return page;
+      return null;
+    };
+    const maxScroll = () => {
+      const sc = scroller();
+      if (sc) return Math.max(1, sc.scrollHeight - sc.clientHeight);
+      return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    };
+    const travel = () => Math.max(80, window.innerHeight - PODof() - TOPof() - 40);
+    this._sy = sy;
+    this._maxScroll = maxScroll;
+
+    const paint = () => {
+      rail.style.pointerEvents = "none";
+      const TOP = TOPof(), POD = PODof();
+      placeBoat();
+      const p = Math.min(1, Math.max(0, sy() / maxScroll()));
+      const y = TOP + p * travel();
+      pod.style.top = y.toFixed(1) + "px";
+      rope.style.height = y.toFixed(1) + "px";
+      const marks = ["#log", "#deats", "#galley", "footer"].map((sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return Infinity;
+        return el.getBoundingClientRect().top + sy();
+      });
+      const spread = marks.filter((m) => m !== Infinity);
+      const settled = spread.length > 1 && spread[spread.length - 1] - spread[0] > 200;
+      const podDoc = sy() + y + POD * 0.65;
+      let i = -1;
+      if (settled) marks.forEach((m, k) => { if (podDoc >= m) i = k; });
+      rail.style.opacity = i < 0 ? "0" : "1";
+      if (i < 0) { imgs.forEach((el) => { el.style.opacity = "0"; }); shown = -1; return; }
+      if (i !== shown) {
+        shown = i;
+        imgs.forEach((el, k) => { el.style.opacity = k === i ? "1" : "0"; });
+      }
+    };
+    this._paintNet = paint;
+
+    pod.addEventListener("pointerdown", (e) => {
+      dragging = true; pod.style.cursor = "grabbing"; pod.style.animationPlayState = "paused";
+      try { pod.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    pod.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      const p = Math.min(1, Math.max(0, (e.clientY - TOPof() - PODof() / 2) / travel()));
+      const target = p * maxScroll();
+      const sc = scroller();
+      if (sc) sc.scrollTop = target; else window.scrollTo({ top: target });
+    });
+    const stop = () => { dragging = false; pod.style.cursor = "grab"; pod.style.animationPlayState = ""; };
+    pod.addEventListener("pointerup", stop);
+    pod.addEventListener("pointercancel", stop);
+
+    window.addEventListener("scroll", paint, { passive: true });
+    if (page) page.addEventListener("scroll", paint, { passive: true });
+    window.addEventListener("resize", paint);
+    let lastY = -1, lastH = -1;
+    const tick = () => {
+      const y = sy(), h = document.documentElement.scrollHeight;
+      if (y !== lastY || h !== lastH) { lastY = y; lastH = h; paint(); }
+      this._netRaf = requestAnimationFrame(tick);
+    };
+    paint();
+    this._netRaf = requestAnimationFrame(tick);
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const first = (f.first.value || "").trim();
+    const last = (f.last.value || "").trim();
+    const phone = (f.phone.value || "").replace(/[^0-9]/g, "");
+    if (!first || !last) return this.setState({ error: true, errorText: "The log needs a name — first and last." });
+    if (phone.length < 10) return this.setState({ error: true, errorText: "A ten-digit number, or you'll never find the dock." });
+    if (!f.sheet.checked) return this.setState({ error: true, errorText: "The ghost sheet is not optional." });
+    this.setState({ submitted: true, error: false });
+    try { window.scrollTo({ top: document.getElementById("rsvp").offsetTop - 40, behavior: "smooth" }); } catch (err) {}
+  };
+
+  renderVals() {
+    const claim = this.state.claim;
+    const locked = !!claim;
+    const cardBase = "padding:clamp(24px,5vw,34px) clamp(20px,5vw,30px);display:flex;flex-direction:column;transition:opacity .4s ease;";
+    let totalLeft = 0;
+    const prizes = Component.PRIZES.map((p) => {
+      const left = this._remaining(p);
+      const mine = locked && claim.id === p.id;
+      const out = left <= 0 && !mine;
+      totalLeft += left;
+      const dim = out || (locked && !mine);
+      return {
+        id: p.id,
+        name: p.name,
+        line: p.line,
+        tagColor: mine ? "#8fbfa8" : out ? "#6d8f88" : "#c8352c",
+        remainLabel: mine ? "Yours" : out ? "Gone" : left > 1 ? left + " of " + p.stock + " left" : "One only",
+        cardStyle: cardBase + "background:" + (mine ? "#132f38" : "#08202a") + ";opacity:" + (dim ? ".42" : "1") + ";" + (mine ? "box-shadow:inset 0 0 0 1px rgba(143,191,168,.45);" : ""),
+        disabled: out || locked,
+        btnLabel: mine ? "Held for you" : out ? "Claimed" : "Claim it",
+        btnStyle: "margin-top:auto;width:100%;padding:16px 18px;min-height:52px;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.26em;text-transform:uppercase;cursor:" + (out || locked ? "default" : "pointer") + ";background:" + (mine ? "rgba(143,191,168,.14)" : out || locked ? "transparent" : "#c8352c") + ";border:1px solid " + (mine ? "rgba(143,191,168,.5)" : out || locked ? "rgba(143,191,168,.2)" : "#e0554a") + ";color:" + (mine ? "#cfe3d6" : out || locked ? "#6d8f88" : "#f3ece0") + ";",
+        btnHover: out || locked ? "" : "background:#a52a22;",
+        onClaim: () => this.pickPrize(p.id)
+      };
+    });
+    const picked = Component.PRIZES.find((p) => p.id === this.state.picking);
+    const held = claim ? Component.PRIZES.find((p) => p.id === claim.id) : null;
+    return {
+      prizes,
+      picking: this.state.picking,
+      pickedName: picked ? picked.name : "",
+      hasClaim: locked,
+      claimPrizeName: held ? held.name : "",
+      claimHolder: claim ? claim.name : "",
+      claimError: this.state.claimError,
+      claimErrorText: this.state.claimErrorText,
+      confirmClaim: this.confirmClaim,
+      cancelPick: this.cancelPick,
+      releaseClaim: this.releaseClaim,
+      salvageLeftLabel: totalLeft > 0 ? totalLeft + " pieces still in the net" : "The net is empty",
+      diveNext: this.diveNext,
+      boatSequence: this.boatSequence,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      error: this.state.error,
+      errorText: this.state.errorText,
+      onSubmit: this.onSubmit
+    };
+  }
+}
+</script>
+</body>
+</html>

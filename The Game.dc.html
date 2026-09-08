@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap">
+<style>
+@font-face{font-family:"NeulandInline";src:url("assets/NeulandInline.otf") format("opentype");font-display:swap;}
+@font-face{font-family:"Tuscany";src:url("assets/TakeMeToTuscany.otf") format("opentype");font-display:swap;}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0);}50%{transform:translate3d(0,-14px,0);}}
+html,body{margin:0;padding:0;background:#050f14;}
+body{font-family:'Playfair Display',Georgia,serif;-webkit-font-smoothing:antialiased;}
+a{color:#c8352c;}
+a:hover{color:#e0554a;}
+@media (max-width:640px){
+  #hdr-band{padding:18px 18px 25px !important;}
+  #hdr-band > a{font-size:28px !important;}
+  #hdr-water{height:20px !important;}
+}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#050f14;">
+  <header style="position:relative;z-index:20;background:#eceae4;">
+    <div id="hdr-band" style="max-width:1180px;margin:0 auto;padding:22px max(18px,6vw) 26px;display:flex;flex-wrap:wrap;gap:14px 32px;align-items:center;justify-content:space-between;">
+      <a href="Old Man and the Sea.dc.html" style="font-family:'NeulandInline',Georgia,serif;font-size:clamp(22px,2.6vw,32px);line-height:1;color:#c8352c;text-shadow:0 1px 0 rgba(255,255,255,.9);text-decoration:none;" style-hover="color:#e0554a;">You're Invited</a>
+    </div>
+    <div id="hdr-water" aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:26px;background-image:url('assets/ocean-strip.png');background-repeat:no-repeat;background-size:100% 100%;background-position:center top;"></div>
+  </header>
+
+  <section style="position:relative;margin-top:-1px;padding:clamp(60px,10vw,140px) max(20px,6vw) clamp(46px,7vw,90px);background:#0d2630;overflow:hidden;">
+    <div style="position:absolute;left:-10%;right:-10%;top:0;height:70%;background:radial-gradient(52% 50% at 50% 40%, rgba(200,53,44,.1), rgba(0,0,0,0) 70%);animation:drift 32s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:relative;max-width:820px;margin:0 auto;">
+      <p style="margin:0 0 16px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">HOW TO PLAY</p>
+      <h1 style="margin:0 0 22px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(32px,6vw,74px);line-height:1.06;color:#eef5ee;text-wrap:balance;">Monsters and Mariners</h1>
+      <div style="max-width:62ch;font-size:clamp(17px,1.7vw,21px);line-height:1.66;color:#bcd3c8;text-wrap:pretty;">
+        <p style="margin:0 0 20px;">Quoth's tiki parties have been known to draw all manner of guests, some unsavory and others... well... savory. Upon entering the party, you will receive a black envelope. Inside this envelope will be a card detailing whether you are a mariner or a monster.</p>
+        <p style="margin:0 0 20px;">If you are a monster, you will receive a sheet of red stickers. These are your bite marks. It is your goal to bite everyone at the party.</p>
+        <p style="margin:0 0 20px;">If you are a mariner, it is your duty to root out the evil from Quoth's party by accusing and condemning suspected monsters at dockhand meetings, which can be held in the council circle.</p>
+        <p style="margin:0;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#8fbfa8;">ANYONE CAN CALL A DOCKHAND MEETING...</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(50px,8vw,110px) max(20px,6vw);background:#050f14;">
+    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:2px;">
+      <div style="outline:1px solid rgba(143,191,168,.14);background:#081c22;padding:clamp(26px,5vw,40px) clamp(22px,5vw,34px);">
+        <p style="margin:0 0 10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">For the mariners</p>
+        <h2 style="margin:0 0 22px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(22px,2.8vw,36px);line-height:1.06;color:#e6efe6;">Guide for Survival</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.6;color:#b7cdc2;text-wrap:pretty;">
+          <div>- If there's a red sticker on you... you're dead.</div>
+          <div>- Friends check friends for bite marks!</div>
+          <div>- Spot a ghost that wasn't there before? Call a dockhand.</div>
+          <div>- Vote for the most suspicious.</div>
+        </div>
+      </div>
+      <div style="outline:1px solid rgba(143,191,168,.14);background:#081c22;padding:clamp(26px,5vw,40px) clamp(22px,5vw,34px);">
+        <p style="margin:0 0 10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#c8352c;">For the monsters</p>
+        <h2 style="margin:0 0 22px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(22px,2.8vw,36px);line-height:1.06;color:#e6efe6;">Guide for the primal</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.6;color:#b7cdc2;text-wrap:pretty;">
+          <div>- Stick a sticker, claim a victim.</div>
+          <div>- Know your monsters. They can't be killed.</div>
+          <div>- Mingle with the living and avoid suspicion.</div>
+          <div>- Be strategic about where and when to claim a victim.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="position:relative;padding:clamp(50px,8vw,120px) max(20px,6vw);background:#0d2630;border-top:1px solid rgba(143,191,168,.12);overflow:hidden;">
+    <div style="position:relative;max-width:900px;margin:0 auto;">
+      <p style="margin:0 0 14px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8fbfa8;">What if I'm bit or accused of biting?</p>
+      <h2 style="margin:0 0 22px;font-family:'NeulandInline',Georgia,serif;font-weight:400;font-size:clamp(24px,3.6vw,46px);line-height:1.06;color:#eef5ee;text-wrap:balance;">Congrats! You're now a ghost!</h2>
+      <p style="margin:0 0 30px;max-width:62ch;font-size:17px;line-height:1.66;color:#cfe3d6;text-wrap:pretty;">Put on your ghost sheet and enjoy the party from the ethereal world. Remember, ghosts can't quite recall how they died. Don't spoil the fun!</p><p style="margin:0 0 30px;max-width:62ch;font-size:17px;line-height:1.66;color:#cfe3d6;text-wrap:pretty;">Ghosts may have the opportunity to provide abstract clues from beyond the veil as to whom killed them.</p>
+      
+    </div>
+  </section>
+
+  <section style="padding:clamp(50px,8vw,110px) max(20px,6vw) clamp(70px,10vw,140px);background:#071a20;border-top:1px solid rgba(143,191,168,.12);text-align:center;">
+    
+    <a href="Old Man and the Sea.dc.html#rsvp-form" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:19px 30px;min-height:56px;background:#c8352c;border:1px solid #e0554a;color:#f3ece0;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;" style-hover="background:#a52a22;">Get in the log →</a>
+  </section>
+</div>
+
+</x-dc>
+</body>
+</html>

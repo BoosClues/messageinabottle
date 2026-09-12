@@ -63,6 +63,7 @@ class Component extends DCLogic {
   timers = [];
 
   componentDidMount() {
+    try { localStorage.setItem('voyage.checkpoint', 'havana'); } catch (e) {}
     this.after(5900, () => this.setState({ blackoutOpacity: 1 }));
     this.after(6800, () => {
       this.setState({ showPan: false, showText: true });

@@ -83,6 +83,26 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ resumeOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:#000;z-index:44;animation:mapFadeIn 220ms ease;"></div>
+    <div style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:45;animation:mapPopIn 260ms ease;width:min(340px,86vw);box-sizing:border-box;background:#1D1D1D;border:1px solid #6B5A3A;border-radius:2px;box-shadow:0 20px 60px rgba(0,0,0,0.5);padding:30px 28px 24px;text-align:center;font-family:'Playfair Display',Georgia,serif;">
+      <div style="font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#C9A24B;margin-bottom:10px;">
+        Ship&rsquo;s log
+      </div>
+      <div style="font-style:italic;font-weight:500;font-size:21px;line-height:1.5;color:#F1E9D2;margin-bottom:24px;text-wrap:pretty;">
+        Your voyage is already under way &mdash; last seen {{ resumeLabel }}.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div onClick="{{ onResume }}" style="padding:14px 0;border:1px solid #F1E9D2;color:#F1E9D2;font-style:italic;font-size:17px;cursor:pointer;border-radius:2px;" style-hover="background:#F1E9D2;color:#1D1D1D;">
+          Resume the voyage
+        </div>
+        <div onClick="{{ onStartOver }}" style="padding:12px 0;border:1px solid #6B5A3A;color:#B7A97E;font-style:italic;font-size:15px;cursor:pointer;border-radius:2px;" style-hover="background:#6B5A3A;color:#1D1D1D;">
+          Start a new voyage
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ coordsOpen }}" hint-placeholder-val="{{ false }}">
     <div
       style="position:fixed;inset:0;background:#000;z-index:40;animation:mapFadeIn 220ms ease;">
@@ -157,7 +177,8 @@
           <p style="margin:0 0 18px;">Not too long ago, our quiet organization received a foul omen &mdash; a poor portent in the tides that something long dormant was stirring and threatening to breach at a <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">place of inaccessibility.</strong></p>
           <p style="margin:0 0 18px;">We sent the recipient of this cargo to keep watch over the location, but I do fear for his courage and his sanity. It may seem simple, but your delivery would do well to fortify his spirits. Nothing like a <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">double shot of rum</strong> to strengthen one&rsquo;s mind against the coming dark.</p>
           <p style="margin:0 0 18px;">Be warned. He&rsquo;s a skeptical old bird and quite rude. But he will no doubt invite you to share in untold secrets should you earn his trust.</p>
-          <p style="margin:0;">For fear of wandering eyes, I cannot Point you to his exact coordinates. But <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">reverse</strong> the Omen, and find him you shall.</p>
+          <p style="margin:0 0 22px;">For fear of wandering eyes, I cannot Point you to his exact coordinates. But <strong style="font-weight:700;-webkit-text-stroke:0.5px currentColor;">reverse</strong> the Omen, and find him you shall.</p>
+          <p style="margin:0;text-align:right;">&mdash; The Old Man in the Sea</p>
         </div>
         <div onClick="{{ closeReview }}" style="align-self:center;padding:12px 28px;border:1px solid #F1E9D2;color:#F1E9D2;font-style:italic;font-size:16px;cursor:pointer;border-radius:2px;" style-hover="background:#F1E9D2;color:#1D1D1D;">
           Back to the charts
@@ -223,6 +244,8 @@ const STOP_VELOCITY = 0.02;
 
 class Component extends DCLogic {
   state = {
+    resumeOpen: false,
+    resumeAt: '',
     countries: [],
     panX: 0,
     panY: 0,
@@ -284,7 +307,61 @@ class Component extends DCLogic {
   openReview = () => this.setState({ reviewOpen: true });
   closeReview = () => this.setState({ reviewOpen: false });
 
+  // Every page of the voyage stamps its checkpoint; this is where a returning player picks it back up.
+  RESUME_ROUTES = {
+    havana: './havana-dock.html',
+    hold: './cargo-hold.html',
+    dream: './dream-state.html',
+    nemo: './point-nemo.html',
+  };
+  RESUME_LABELS = {
+    havana: 'in Havana harbor',
+    hold: 'sorting cargo in the hold',
+    coords: 'plotting a course',
+    dream: 'adrift in a strange dream',
+    nemo: 'at Point Nemo',
+    done: 'with the letter in hand',
+  };
+
+  clearVoyage = () => {
+    try {
+      const kill = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && /^(voyage\.|cargoHold|dream\.|map\.pending|pointNemo\.|nemo\.)/.test(k)) kill.push(k);
+      }
+      kill.forEach((k) => localStorage.removeItem(k));
+    } catch (e) {}
+  };
+
+  onResume = () => {
+    const cp = this.state.resumeAt;
+    if (cp === 'coords') { this.setState({ resumeOpen: false, coordsOpen: true, coordsError: '' }); return; }
+    if (cp === 'done') { window.location.href = 'https://boosclues.github.io/invite-old-man-in-the-sea/'; return; }
+    const route = this.RESUME_ROUTES[cp];
+    if (route) { window.location.href = route; return; }
+    this.setState({ resumeOpen: false });
+  };
+
+  onStartOver = () => {
+    this.clearVoyage();
+    this.setState({ resumeOpen: false, resumeAt: '' });
+  };
+
   componentDidMount() {
+    // ?reset (or ?newvoyage) wipes the save — handy for replaying a different storyline.
+    try {
+      const q = window.location.search || '';
+      if (/[?&](reset|newvoyage)\b/.test(q)) this.clearVoyage();
+      const pending =
+        localStorage.getItem('map.pendingCoords') === '1' ||
+        localStorage.getItem('map.pendingRest') === '1' ||
+        localStorage.getItem('map.pendingPointNemoIntro') === '1';
+      const cp = localStorage.getItem('voyage.checkpoint');
+      if (!pending && cp && cp !== 'map' && this.RESUME_LABELS[cp]) {
+        this.setState({ resumeOpen: true, resumeAt: cp });
+      }
+    } catch (e) {}
     // Returning from the dream: run the Point Nemo preamble before the bow scene.
     try {
       if (localStorage.getItem('map.pendingCoords') === '1') {
@@ -569,6 +646,7 @@ class Component extends DCLogic {
   }
 
   onRest = () => {
+    try { localStorage.setItem('voyage.checkpoint', 'dream'); } catch (e) {}
     this.setState({ restOpacity: 0, restButtonShown: false });
     this.after(760, () => {
       this.setState({ restLine: 'You drift off to sleep.', restOpacity: 1 });
@@ -637,6 +715,10 @@ class Component extends DCLogic {
     const zoom = this.state.zoom;
     const worldTiles = [-1, 0, 1].map(i => ({ left: i * MAP_W }));
     return {
+      resumeOpen: this.state.resumeOpen,
+      resumeLabel: this.RESUME_LABELS[this.state.resumeAt] || 'at sea',
+      onResume: this.onResume,
+      onStartOver: this.onStartOver,
       countries: this.state.countries,
       tiles: worldTiles,
       oceanColor: this.props.oceanColor ?? '#3E6478',

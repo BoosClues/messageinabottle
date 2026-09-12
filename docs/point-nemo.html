@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500;1,700&amp;display=swap" rel="stylesheet">
   <style>
     body { margin: 0; background: #0C0C0C; }
     a { color: #C9A24B; }
@@ -24,13 +24,15 @@
     }
   @keyframes sealTextPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
   @keyframes sealPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,240,200,0); } 50% { box-shadow: 0 0 0 10px rgba(255,240,200,0.18); } }
+  @keyframes pnCardFloat { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+  @keyframes pnFoilDrift { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
   </style>
 </helmet>
 <div data-bow-stage="true" style="width:100%;height:100vh;min-height:560px;position:relative;background:#0C0C0C url('./assets/point-nemo-bow.png') center 62% / cover no-repeat;font-family:'Playfair Display',Georgia,serif;overflow:hidden;">
 
-  <img src="./assets/raven/perched.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;" />
-  <img src="./assets/raven/squawk.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;" />
-  <img src="./assets/raven/close.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;" />
+  <img src="./assets/raven/perched.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;">
+  <img src="./assets/raven/squawk.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;">
+  <img src="./assets/raven/close.png" alt="" aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;pointer-events:none;">
 
   <div style="position:absolute;left:{{ ravenLeft }};top:{{ ravenTop }};width:{{ ravenSize }};height:{{ ravenHeight }};transform:{{ ravenTransform }};opacity:{{ ravenFlightOpacity }};pointer-events:none;z-index:2;filter:drop-shadow(0 8px 14px rgba(0,0,0,0.35));">
     <div style="position:absolute;inset:0;background-image:url('./assets/raven/f01.png');background-size:contain;background-repeat:no-repeat;background-position:center;opacity:{{ fop01 }};"></div>
@@ -62,7 +64,7 @@
   <sc-if value="{{ introP0Shown }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:16px;right:16px;top:30%;transform:translateY(-50%);max-width:360px;margin:0 auto;z-index:5;box-sizing:border-box;padding:11px 15px;text-align:center;animation:quothIn 900ms ease both;">
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#1D1D1D;text-wrap:pretty;text-shadow:0 1px 8px rgba(241,233,210,0.65);">
-        This is it then&hellip; the farthest place from land you could possibly be.
+        This is it then… the farthest place from land you could possibly be.
       </div>
     </div>
   </sc-if>
@@ -78,7 +80,7 @@
   <sc-if value="{{ introP2Shown }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:16px;right:16px;top:30%;transform:translateY(-50%);max-width:360px;margin:0 auto;z-index:5;box-sizing:border-box;padding:11px 15px;text-align:center;animation:quothIn 900ms ease both;">
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#1D1D1D;text-wrap:pretty;text-shadow:0 1px 8px rgba(241,233,210,0.65);">
-        But then&hellip;
+        But then…
       </div>
     </div>
   </sc-if>
@@ -86,7 +88,7 @@
   <sc-if value="{{ introRavenShown }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:16px;right:16px;top:30%;transform:translateY(-50%);max-width:360px;margin:0 auto;z-index:5;box-sizing:border-box;padding:11px 15px;text-align:center;animation:quothOut 500ms ease 4700ms both;">
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#1D1D1D;text-wrap:pretty;text-shadow:0 1px 8px rgba(241,233,210,0.65);">
-        A stately raven&hellip;
+        A stately raven…
       </div>
     </div>
   </sc-if>
@@ -113,7 +115,7 @@
         Quoth
       </div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
-        &ldquo;Papa sent you eh?&rdquo;
+        “Papa sent you eh?”
       </div>
     </div>
   </sc-if>
@@ -124,7 +126,7 @@
         Quoth
       </div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
-        &ldquo;Prove it&hellip;&rdquo;
+        “Prove it…”
       </div>
     </div>
   </sc-if>
@@ -159,8 +161,8 @@
     <div style="position:absolute;left:0;right:0;bottom:0;z-index:8;box-sizing:border-box;padding:14px 14px 16px;background:linear-gradient(180deg,rgba(12,12,10,0.0) 0%,rgba(12,12,10,0.92) 22%,rgba(12,12,10,0.97) 100%);animation:quothIn 600ms ease both;">
       <div style="max-width:440px;margin:0 auto;">
         <div style="display:flex;align-items:baseline;flex-direction:row-reverse;gap:10px;margin-bottom:9px;">
-          <div style="text-align:right;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#E2402F;">
-            Ship&rsquo;s manifest
+          <div style="text-align: right; font-family: 'Playfair Display',Georgia,serif; font-size: 14px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: #FFFFFF">
+            Ship’s manifest
           </div>
           <div style="flex:1;text-align:left;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:13px;color:#9A8F70;">
             {{ offerCountLabel }}
@@ -178,12 +180,12 @@
         <div style="min-height:44px;box-sizing:border-box;border-top:1px solid rgba(201,162,75,0.28);padding-top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
           <sc-if value="{{ offerEmpty }}" hint-placeholder-val="{{ true }}">
             <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#7E7457;">
-              The bird is waiting expectantly. It looks thirsty&hellip;
+              The bird is waiting expectantly. It looks thirsty…
             </div>
           </sc-if>
           <sc-for list="{{ offering }}" as="pick" hint-placeholder-count="0">
             <div onClick="{{ pick.onRemove }}" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#1D1D1D;background:#C9A24B;border-radius:2px;padding:7px 11px;cursor:pointer;" style-hover="background:#E0BE6E;">
-              {{ pick.label }} &times;
+              {{ pick.label }} ×
             </div>
           </sc-for>
         </div>
@@ -206,7 +208,7 @@
         Quoth
       </div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
-        &ldquo;A Hemingway Daiquiri&hellip; My favorite.&rdquo;
+        “A Hemingway Daiquiri… My favorite.”
       </div>
     </div>
   </sc-if>
@@ -214,7 +216,7 @@
   <sc-if value="{{ drinksShown }}" hint-placeholder-val="{{ false }}">
     <div ref="{{ boxRef }}" style="position:absolute;left:16px;right:16px;bottom:{{ speechBottom }};max-width:360px;margin:0 auto;z-index:9;box-sizing:border-box;padding:11px 15px;text-align:center;animation:quothIn 900ms ease both;">
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:19px;line-height:1.45;color:#1D1D1D;text-wrap:pretty;text-shadow:0 1px 8px rgba(241,233,210,0.65);">
-        The bird drinks deep&hellip;
+        The bird drinks deep…
       </div>
     </div>
   </sc-if>
@@ -233,7 +235,80 @@
         Quoth
       </div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
-        &ldquo;So it&rsquo;s true&hellip;&rdquo;
+        “So it’s true…”
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ cargoSenseShown }}" hint-placeholder-val="{{ false }}">
+    <div ref="{{ boxRef }}" style="position:absolute;left:16px;right:16px;bottom:{{ speechBottom }};max-width:360px;margin:0 auto;z-index:9;box-sizing:border-box;background:rgba(12,12,10,0.86);border:1px solid rgba(201,162,75,0.6);border-radius:2px;padding:11px 16px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,0.6);animation:quothIn 700ms ease both;">
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#C9A24B;margin-bottom:5px;">
+        Quoth
+      </div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
+        “Strange. I sense something in your cargo that doesn’t belong…”
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ cargoLeaveShown }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:16px;right:16px;bottom:calc({{ speechBottom }} - 70px);max-width:360px;margin:0 auto;z-index:9;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="width:100%;background:rgba(12,12,10,0.86);border:1px solid rgba(201,162,75,0.6);border-radius:2px;padding:11px 16px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,0.6);animation:quothIn 700ms ease both;">
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#C9A24B;margin-bottom:5px;">
+          Quoth
+        </div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
+          “Best leave it with me.”
+        </div>
+      </div>
+      <div onClick="{{ onHandOverCargo }}" style="text-align:center;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;padding:12px 22px;background:#C9A24B;color:#1D1D1D;border-radius:2px;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,0.45);animation:quothIn 900ms ease both;" style-hover="background:#E0BE6E;">
+        Hand over strange cargo
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ cargoThanksShown }}" hint-placeholder-val="{{ false }}">
+    <div ref="{{ boxRef }}" style="position:absolute;left:16px;right:16px;bottom:{{ speechBottom }};max-width:360px;margin:0 auto;z-index:9;box-sizing:border-box;background:rgba(12,12,10,0.86);border:1px solid rgba(201,162,75,0.6);border-radius:2px;padding:11px 16px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,0.6);animation:quothIn 700ms ease both;">
+      <div style="font-family:'Playfair Display',Georgia,serif;font-size:12px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:#C9A24B;margin-bottom:5px;">
+        Quoth
+      </div>
+      <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
+        “It’s better this way. Here — for the effort.”
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ couponShown }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:13;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,3vh,26px);padding:clamp(12px,3vh,24px);background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.86) 100%);animation:quothIn 500ms ease both;">
+      <div style="animation:pnCardFloat 6s ease-in-out infinite;">
+        <div style="position:relative;width:min(78vw,330px);aspect-ratio:5 / 7;border-radius:16px;padding:11px;background:linear-gradient(150deg,#0B2431 0%,#123647 40%,#0A1E29 100%);box-shadow:0 26px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(180,240,255,0.28) inset, 0 0 34px rgba(120,220,255,0.16);">
+          <div style="position:absolute;inset:0;border-radius:16px;pointer-events:none;background:linear-gradient(115deg,#FF9BD2 4%,#9FF3FF 20%,#D9BBFF 36%,#FFF0B0 52%,#B6FFE0 68%,#9FB8FF 84%,#FF9BD2 100%);background-size:260% 260%;opacity:0.30;mix-blend-mode:screen;animation:pnFoilDrift 5s linear infinite;"></div>
+          <div style="position:relative;height:100%;display:flex;flex-direction:column;border-radius:9px;border:1px solid rgba(190,245,255,0.4);background:linear-gradient(180deg,rgba(6,20,28,0.72),rgba(6,20,28,0.4));overflow:hidden;font-family:'Playfair Display',Georgia,serif;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 11px;background:linear-gradient(90deg,rgba(159,243,255,0.16),rgba(217,187,255,0.16));border-bottom:1px solid rgba(190,245,255,0.28);">
+              <div style="font-size:9px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#BFF3FF;">Dreamer Exclusive</div>
+              <div style="font-size:9px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#FFF0B0;">Foil · 001</div>
+            </div>
+            <div style="position:relative;margin:9px 9px 0;border-radius:6px;overflow:hidden;border:1px solid rgba(190,245,255,0.34);box-shadow:0 8px 22px rgba(0,0,0,0.6);">
+              <img src="./assets/abyss-shirt-full.png" alt="From the Abyss resort shirt" style="display:block;width:100%;aspect-ratio:1 / 1;object-fit:contain;padding:6px;box-sizing:border-box;background:radial-gradient(ellipse 70% 70% at 50% 42%, #14384A 0%, #0A1E29 100%);">
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(4,16,22,0.9) 100%);"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:7px 9px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#CFF6FF;">From the Abyss Edition</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 10px;text-align:center;">
+              <div style="font-size:clamp(30px,8.4vw,40px);line-height:1.05;font-weight:700;letter-spacing:-0.5px;background:linear-gradient(100deg,#FFFFFF 10%,#9FF3FF 30%,#FFF0B0 55%,#D9BBFF 78%,#FFFFFF 96%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:pnFoilDrift 4.4s linear infinite;">25% OFF</div>
+              <div style="font-size:11px;font-weight:700;line-height:1.2;letter-spacing:0.2px;color:#FFFFFF;white-space:nowrap;">DODO Washable Resort Shirt</div>
+            </div>
+            <div style="padding:7px 9px 9px;border-top:1px solid rgba(190,245,255,0.28);background:rgba(4,16,22,0.55);">
+              <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:5px 10px;border:1px dashed rgba(255,240,176,0.7);border-radius:5px;">
+                <span style="font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9FD8E8;">Code</span>
+                <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;letter-spacing:2px;color:#FFF0B0;">DREAMS</span>
+              </div>
+              <div style="margin-top:5px;font-size:8px;line-height:1.45;letter-spacing:0.3px;color:rgba(200,230,240,0.62);text-align:center;text-wrap:pretty;">Redeemable at any tide. One per dreamer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div onClick="{{ onPocketAtSea }}" style="font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#FFFFFF;cursor:pointer;padding:9px 20px;border:1px solid rgba(255,255,255,0.5);border-radius:2px;text-shadow:0 2px 4px rgba(0,0,0,1);" style-hover="border-color:#FFFFFF;background:rgba(255,255,255,0.1);">
+        Pocket it
       </div>
     </div>
   </sc-if>
@@ -244,7 +319,7 @@
         Quoth
       </div>
       <div style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:21px;line-height:1.45;color:#F1E9D2;text-wrap:pretty;">
-        &ldquo;I guess I&rsquo;m supposed to give you this then.&rdquo;
+        “I guess I’m supposed to give you this then.”
       </div>
     </div>
   </sc-if>
@@ -323,6 +398,7 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    try { localStorage.setItem('voyage.checkpoint', 'nemo'); } catch (e) {}
     this.hostEl = document.querySelector('[data-bow-stage]');
     this.measurePost();
     this.onResize = () => { this.measurePost(); };
@@ -457,8 +533,31 @@ class Component extends DCLogic {
       return;
     }
     if (this.state.stage >= 8 && this.state.stage < 11) {
-      this.setState({ stage: this.state.stage + 1 });
+      const s = this.state.stage;
+      if (s === 9) {
+        let stillHasCargo = true;
+        try { stillHasCargo = localStorage.getItem('cargoHoldCarriedNormalCargo') === '1'; } catch (e) {}
+        this.setState({ stage: stillHasCargo ? 9.1 : 10 });
+        return;
+      }
+      if (s === 9.1) { this.setState({ stage: 9.2 }); return; }
+      if (s === 9.2 || s === 9.4) return;
+      if (s === 9.3) { this.setState({ stage: 9.4 }); return; }
+      this.setState({ stage: s + 1 });
     }
+  };
+
+  onHandOverCargo = () => {
+    try {
+      localStorage.setItem('cargoHoldCarriedNormalCargo', '0');
+      localStorage.setItem('nemo.tookCargo', '1');
+    } catch (e) {}
+    this.setState({ stage: 9.3 });
+  };
+
+  onPocketAtSea = () => {
+    try { localStorage.setItem('dream.receivedGift', '1'); } catch (e) {}
+    this.setState({ stage: 10 });
   };
 
   onSealTouchStart = (e) => { this.swY = e.touches && e.touches[0] ? e.touches[0].clientY : null; };
@@ -477,6 +576,7 @@ class Component extends DCLogic {
       this.setState({ letterFrame: f });
       if (f >= 16) {
         clearInterval(this.letterTimer);
+        try { localStorage.setItem('voyage.checkpoint', 'done'); } catch (e) {}
         setTimeout(() => { window.location.href = 'https://boosclues.github.io/invite-old-man-in-the-sea/'; }, 900);
       }
     }, 110);
@@ -575,8 +675,8 @@ class Component extends DCLogic {
         : 'translate(-50%,-50%) scaleX(' + s.flip + ')',
       ravenOpacity: s.opacity.toFixed(2),
       onAdvance: this.onAdvance,
-      tapOverlayShown: ['p0', 'p1', 'p2', 'p4', 'p5'].includes(s.introPhase) || (s.stage >= 1 && s.stage < 4) || (s.stage >= 8 && s.stage < 11) || s.squawking,
-      tapHintShown: (['p0', 'p1', 'p2', 'p4', 'p5'].includes(s.introPhase) || (s.stage >= 1 && s.stage < 4) || (s.stage >= 8 && s.stage < 11)) && !s.squawking,
+      tapOverlayShown: ['p0', 'p1', 'p2', 'p4', 'p5'].includes(s.introPhase) || (s.stage >= 1 && s.stage < 4) || (s.stage >= 8 && s.stage < 11 && s.stage !== 9.2 && s.stage !== 9.4) || s.squawking,
+      tapHintShown: (['p0', 'p1', 'p2', 'p4', 'p5'].includes(s.introPhase) || (s.stage >= 1 && s.stage < 4) || (s.stage >= 8 && s.stage < 11 && s.stage !== 9.2 && s.stage !== 9.4)) && !s.squawking,
       introP0Shown: s.introPhase === 'p0',
       introP1Shown: s.introPhase === 'p1',
       introP2Shown: s.introPhase === 'p2',
@@ -593,7 +693,13 @@ class Component extends DCLogic {
       solvedShown: s.stage === 8,
       heartsShown: s.stage === 8,
       soTrueShown: s.stage === 9,
+      cargoSenseShown: s.stage === 9.1,
+      cargoLeaveShown: s.stage === 9.2,
+      cargoThanksShown: s.stage === 9.3,
+      couponShown: s.stage === 9.4,
       giveThisShown: s.stage === 10,
+      onHandOverCargo: this.onHandOverCargo,
+      onPocketAtSea: this.onPocketAtSea,
       letterShown: s.stage >= 11,
       sealTappable: s.letterFrame === 1,
       onOpenLetter: this.onOpenLetter,

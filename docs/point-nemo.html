@@ -365,12 +365,30 @@
   </sc-if>
 
 
+  <div onClick="{{ stopBubble }}" style="position:fixed;right:14px;bottom:14px;z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+    <sc-if value="{{ hintOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:min(240px,78vw);box-sizing:border-box;padding:10px 14px;background:rgba(20,20,20,0.88);border:1px solid rgba(107,90,58,0.55);border-radius:12px;font-family:'Playfair Display',Georgia,serif;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <span style="font-style:italic;font-size:12px;color:#F1E9D2;">Hints? Teasers?</span>
+        <span style="font-style:italic;font-size:11px;color:#B7A97E;">Following along with <a href="https://instagram.com/therealboosclues" target="_blank" rel="noopener" style="color:#C9A24B;">@therealboosclues</a> starting Oct. 1</span>
+        <div style="display:flex;gap:8px;margin-top:2px;">
+          <a href="https://instagram.com/therealboosclues" target="_blank" rel="noopener" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid #6B5A3A;color:#F1E9D2;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg>
+          </a>
+          <a href="https://www.tiktok.com/@therealboosclues" target="_blank" rel="noopener" aria-label="TikTok" style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid #6B5A3A;color:#F1E9D2;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c-.9-.6-1.5-1.6-1.6-2.72h-3.1v13.4c0 1.5-1.2 2.7-2.7 2.7s-2.7-1.2-2.7-2.7 1.2-2.7 2.7-2.7c.3 0 .6.05.85.14v-3.15a5.9 5.9 0 0 0-.85-.06 5.85 5.85 0 0 0 0 11.7 5.85 5.85 0 0 0 5.85-5.85V9.7a7.1 7.1 0 0 0 4.1 1.3V7.9c-.85 0-1.65-.27-2.55-.84z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </sc-if>
+    <div onClick="{{ onToggleHint }}" style="width:26px;height:26px;border-radius:50%;border:1px solid #6B5A3A;color:#B7A97E;display:flex;align-items:center;justify-content:center;font-style:italic;font-size:14px;cursor:pointer;background:rgba(20,20,20,0.55);flex-shrink:0;" style-hover="background:#6B5A3A;color:#1D1D1D;">?</div>
+  </div>
+
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:720}}">
 class Component extends DCLogic {
-  state = { letterFrame: 1, x: 96, y: 4, size: 54, flip: -1, frame: 1, opacity: 0, perched: false, stage: 0, introPhase: 'p0', offering: [], squawking: false, squawkQuote: '', reactionType: 'squawk', boxH: 0 };
+  state = { hintOpen: false, letterFrame: 1, x: 96, y: 4, size: 54, flip: -1, frame: 1, opacity: 0, perched: false, stage: 0, introPhase: 'p0', offering: [], squawking: false, squawkQuote: '', reactionType: 'squawk', boxH: 0 };
 
   // timeline (ms, relative to animation start)
   T = { start: 1600, descentEnd: 7200, vanishEnd: 8600, gap: 9100, returnEnd: 10800 };
@@ -643,10 +661,17 @@ class Component extends DCLogic {
     this.squawkTimer = setTimeout(() => this.setState({ squawking: false }), ms);
   };
 
+  stopBubble = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+
+  onToggleHint = () => this.setState(s => ({ hintOpen: !s.hintOpen }));
+
   renderVals() {
     const s = this.state;
     const n = String(s.frame).padStart(2, '0');
     return {
+      stopBubble: this.stopBubble,
+      hintOpen: this.state.hintOpen,
+      onToggleHint: this.onToggleHint,
       ravenFlightOpacity: s.perched ? 0 : Number(s.opacity).toFixed(2),
       perchLeft: this.POST.x + '%',
       perchTop: this.POST.y + '%',

@@ -416,6 +416,7 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
+    try { this.cawAudio = new Audio('./assets/raven/raven-caw.mp3'); this.cawAudio.preload = 'auto'; this.cawAudio.load(); } catch (e) {}
     try { localStorage.setItem('voyage.checkpoint', 'nemo'); } catch (e) {}
     this.hostEl = document.querySelector('[data-bow-stage]');
     this.measurePost();
@@ -656,6 +657,13 @@ class Component extends DCLogic {
   };
 
   showReaction = (type, quote, ms) => {
+    try {
+      if (!this.cawAudio) { this.cawAudio = new Audio('./assets/raven/raven-caw.mp3'); this.cawAudio.preload = 'auto'; }
+      this.cawAudio.playbackRate = 1.15;
+      this.cawAudio.currentTime = 0.28;
+      const p = this.cawAudio.play();
+      if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
     this.setState({ squawking: true, reactionType: type, squawkQuote: quote, offering: [] });
     if (this.squawkTimer) clearTimeout(this.squawkTimer);
     this.squawkTimer = setTimeout(() => this.setState({ squawking: false }), ms);
